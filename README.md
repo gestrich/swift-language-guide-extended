@@ -10,8 +10,7 @@ does not apply and the mistakes it invites. It is written for someone who
 already writes Swift and wants one concept explained properly.
 
 The material expands on Apple's [Swift Language Guide][guide], covering the
-same language in more depth and adding articles on topics it leaves out — ABI
-stability, library evolution, type erasure, and similar material.
+same language in more depth.
 
 [guide]: https://docs.swift.org/swift-book/documentation/the-swift-programming-language/
 
