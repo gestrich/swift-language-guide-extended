@@ -17,7 +17,7 @@ assumptions has to be visible to whoever picks up the next step. Add it as an
 "Implementation notes" section at the end of the step it came from. Skip
 anything the code already states plainly.
 
-**Publish after every change.** The site is the deliverable, not the repo. When
+**Publish after every change.** The site is the deliverable. When
 a step — or any piece of work inside a step — changes the catalog, commit and
 push to `main` so the Pages workflow rebuilds, then confirm the change is live
 at `https://gestrich.github.io/swift-language-guide-extended/`. A local
@@ -317,8 +317,8 @@ hit.
   standard. Expect to revise the skill once Bill has seen it applied to real
   chapters — Step 3 already plans for that.
 - *The skill landed at `.claude/skills/writing-articles/SKILL.md`.* It splits
-  cleanly from the `docc` skill: `docc` says what DocC will render,
-  `writing-articles` says what to write. Each points at the other.
+  cleanly from the `docc` skill, which covers only what DocC will and will not
+  render. Each skill points at the other.
 - *The conventions in short.* One concept per article. Title, one-sentence
   abstract, `## Overview` carrying the whole idea, then one `##` section per
   idea with a hard cap of about six. Every section runs heading, rule in one to

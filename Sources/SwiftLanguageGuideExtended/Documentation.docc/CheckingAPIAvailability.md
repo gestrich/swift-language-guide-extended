@@ -51,8 +51,8 @@ macOS clause does not apply to an iOS build, and the `*` decides.
 ## The compiler raises the version floor inside the branch
 
 Inside the then-branch the compiler treats the checked version as the deployment
-target, so newer APIs type-check there. That compile-time effect is what makes
-the newer API legal; the run-time test only decides which branch executes.
+target, so newer APIs type-check there. That compile-time effect makes the newer
+API legal; the run-time test only decides which branch executes.
 
 ```swift
 if #available(iOS 26, *) {
