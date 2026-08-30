@@ -13,6 +13,10 @@ in <doc:SwitchStatements>.
 
 ## continue skips to the next pass of the innermost loop
 
+The rest of the body is abandoned and the loop moves on to the next element. In
+a `while` loop the condition is re-evaluated first, as it would be at the
+closing brace.
+
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "continueBasic")
 
 When the `continue` is the first thing in the body, a `where` clause on the loop
@@ -22,6 +26,9 @@ for it.
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "continueVsWhere")
 
 ## break ends the innermost loop or switch
+
+Execution resumes at the first statement after the loop, so an outer loop
+containing it carries on with its next pass.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "breakInnerLoop")
 

@@ -62,11 +62,14 @@ may differ between runs. Sort the keys when the order matters.
 
 ## enumerated() pairs each element with its offset
 
+`enumerated()` wraps a sequence and yields `(offset, element)` tuples, which the
+loop can decompose the same way it decomposes a dictionary's element.
+
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ForInLoops", slice: "enumerated")
 
-The first value is an offset counted from zero rather than an index. For an `Array`
-the two coincide, but for a slice or a `String` they do not, so it cannot be
-used to subscript the collection.
+The first value is an offset counted from zero rather than an index. For an
+`Array` the two coincide, but for a slice or a `String` they do not, so it
+cannot be used to subscript the collection.
 
 ## A where clause filters iterations
 
