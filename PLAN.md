@@ -17,6 +17,13 @@ assumptions has to be visible to whoever picks up the next step. Add it as an
 "Implementation notes" section at the end of the step it came from. Skip
 anything the code already states plainly.
 
+**Publish after every change.** The site is the deliverable, not the repo. When
+a step — or any piece of work inside a step — changes the catalog, commit and
+push to `main` so the Pages workflow rebuilds, then confirm the change is live
+at `https://gestrich.github.io/swift-language-guide-extended/`. A local
+`generate-documentation` run is a check, not a substitute: it does not exercise
+the hosting base path, the root redirect, or how the page reads on a phone.
+
 ---
 
 ## Background
@@ -243,7 +250,7 @@ in this step.
 
 ## Step 2 — Write the authoring skill: article structure and writing voice
 
-- [ ] Author the skill that defines what a good article in this project looks like
+- [x] Author the skill that defines what a good article in this project looks like
 
 This is the step that fixes the "AI writes them badly" problem. Step 1's DocC
 skill covers mechanics — syntax, catalog layout, what DocC will and will not
@@ -301,6 +308,41 @@ hit.
 - It has been exercised at least once: ask an AI to draft one section using only
   the skill, and confirm the output is close enough to be worth editing rather
   than rewriting.
+
+**Implementation notes**
+
+- *The interview was skipped by Bill's instruction.* Rather than eliciting the
+  conventions, they were designed: concise, consistent, and aimed at a reader on
+  a phone. The playground's accreted style was deliberately not treated as the
+  standard. Expect to revise the skill once Bill has seen it applied to real
+  chapters — Step 3 already plans for that.
+- *The skill landed at `.claude/skills/writing-articles/SKILL.md`.* It splits
+  cleanly from the `docc` skill: `docc` says what DocC will render,
+  `writing-articles` says what to write. Each points at the other.
+- *The conventions in short.* One concept per article. Title, one-sentence
+  abstract, `## Overview` carrying the whole idea, then one `##` section per
+  idea with a hard cap of about six. Every section runs heading, rule in one to
+  three sentences, code block, optional consequence — never a code block first.
+  Headings are sentence-case claims, not labels. Code is under 72 columns for
+  phone reading, uses real names, shows results as trailing comments, and quotes
+  compiler diagnostics verbatim from a real build.
+- *Bill's own findings are not labeled.* They are stated as fact with the
+  evidence beside them — usually the compiler's actual output. Only two callouts
+  are sanctioned: `> Experiment:` for something to run, and `> Note:` for a
+  correction where the guide is incomplete or out of date.
+- *Bill's global writing rules from `~/.claude/CLAUDE.md` were restated in the
+  skill*, not referenced, so an agent working in this repo picks them up without
+  loading a file outside it. They will drift apart eventually; the repo copy is
+  authoritative for this project.
+- *Filename convention settled* — the open question flagged in Step 1. Concept
+  name in PascalCase, no chapter number: `CheckingAPIAvailability.md`. Chapter
+  numbers change when Apple reorganizes the guide, and the filename is the
+  permanent URL.
+- *The skill was exercised on one article.* `CheckingAPIAvailability.md` was
+  written to the conventions, ported from the DocC catalog in
+  `~/Downloads/ControlFlowExperiment`, and curated under a `### Control Flow`
+  group on the landing page. It is a section of the Control Flow chapter, so it
+  is the right size to prove the shape without pre-empting the Step 3 pilot.
 
 ## Step 3 — Migrate one chapter as a pilot, and settle the compiled-code question
 

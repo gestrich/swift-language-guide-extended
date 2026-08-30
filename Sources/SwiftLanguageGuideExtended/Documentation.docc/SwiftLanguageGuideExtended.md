@@ -27,3 +27,7 @@ For Apple's original text, see
 ### Getting Started
 
 - <doc:About>
+
+### Control Flow
+
+- <doc:CheckingAPIAvailability>
