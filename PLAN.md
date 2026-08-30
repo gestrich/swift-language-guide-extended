@@ -216,11 +216,17 @@ in this step.
 **Implementation notes**
 
 - *Article filenames are the public URLs.* DocC derives the address from the
-  filename, so `About.md` is served at
-  `documentation/swiftlanguageguideextended/about/`. Renaming a file later
-  breaks any link someone saved. Settle a filename convention for the chapters
-  before Step 4 migrates 34 of them — in particular whether the guide's chapter
-  numbers appear in the name, since renumbering would break URLs.
+  filename, so `IfStatements.md` is served at
+  `documentation/swiftlanguageguideextended/ifstatements/`. Renaming a file
+  later breaks any link someone saved. Settle a filename convention for the
+  chapters before Step 4 migrates 34 of them — in particular whether the
+  guide's chapter numbers appear in the name, since renumbering would break
+  URLs.
+- *There is no separate About page.* An `About.md` covering what the guide is,
+  who it is for, how it is organized, and how the code examples work was folded
+  into the landing page. A reader arriving at the site should not have to
+  follow a link to learn what the site is, and the two pages said the same
+  thing twice.
 - *The landing page needs a display name.* DocC titles the module page with the
   target name, which reads as `SwiftLanguageGuideExtended`. The page carries a
   `@Metadata { @DisplayName("Swift Language Guide Extended") }` directive to fix

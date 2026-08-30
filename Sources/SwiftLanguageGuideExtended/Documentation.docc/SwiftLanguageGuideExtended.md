@@ -8,21 +8,41 @@ An extended edition of Apple's Swift Language Guide.
 
 ## Overview
 
-This guide explains the Swift language one feature at a time: what the feature
-does, the problem it solves, and the rules that decide how it behaves. Each
-article states a rule, shows a short example of it working, and marks the edges
-of the feature — the cases where it does not apply and the mistakes it invites.
+This guide covers the Swift language: its syntax, the rules behind that syntax,
+and the behavior you get at runtime. It goes feature by feature, and an article
+is finished when you can use its feature correctly without looking anything
+else up.
 
-It expands on Apple's
-[Swift Language Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/),
-covering the same language in more depth, and adding articles on topics it
-leaves out.
+The material expands on Apple's
+[Swift Language Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/).
+Where that guide states a rule, this one shows the experiment behind it, the
+cases it does not cover, and the errors the compiler raises when you get it
+wrong.
+
+## Who it is for
+
+You have written some Swift and want one concept explained properly. This is
+not an introduction to programming, and it does not teach the standard library
+or any framework — it is about the language itself.
+
+## How it is organized
+
+One article per concept, grouped into chapters in the sidebar. Chapters follow
+the language as Apple's guide divides it, with additional articles on topics
+that sit outside that list — ABI stability, library evolution, type erasure,
+and similar material.
+
+Articles stand on their own and can be read in any order. Where one concept
+depends on another, the prose links to it at the point it comes up.
+
+## Code examples
+
+Examples are short, self-contained, and compiled as part of this site, so the
+code on the page is code the compiler accepted. When an example exists to show
+a compiler error, the diagnostic appears verbatim beneath the line that
+produces it.
 
 ## Topics
-
-### Getting Started
-
-- <doc:About>
 
 ### Chapters
 

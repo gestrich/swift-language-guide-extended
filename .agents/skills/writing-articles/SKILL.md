@@ -125,14 +125,12 @@ chapter, holding the chapter's own page and one file per article:
 ```
 Sources/SwiftLanguageGuideExtended/Documentation.docc/
     SwiftLanguageGuideExtended.md
-    About.md
     ControlFlow/
         ControlFlow.md
         IfStatements.md
 ```
 
-Pages that belong to no chapter, like the landing page and `About.md`, stay at
-the top level.
+Pages that belong to no chapter, like the landing page, stay at the top level.
 
 The folder is filing and nothing else. An article's URL is
 `/documentation/swiftlanguageguideextended/<filename>` whatever folder holds
