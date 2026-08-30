@@ -8,19 +8,15 @@ An extended edition of Apple's Swift Language Guide.
 
 ## Overview
 
-This guide covers the same concepts and information as Apple's Swift Language
-Guide, interpreted and expanded: small experiments that validate or extend what
-the language does, explanations restated in a form that is clearer to read, and
-material the original leaves implicit. It is written to be read in place of the
-guide rather than alongside it.
+This guide explains the Swift language one feature at a time: what the feature
+does, the problem it solves, and the rules that decide how it behaves. Each
+article states a rule, shows a short example of it working, and marks the edges
+of the feature — the cases where it does not apply and the mistakes it invites.
 
-The examples here are not Apple's. Where a shorter example shows the same idea,
-or a longer one is needed to show it properly, that example is used instead.
-What is preserved is the coverage — every concept the guide conveys should be
-present somewhere in these articles.
-
-For Apple's original text, see
-[The Swift Programming Language](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/).
+It expands on Apple's
+[Swift Language Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/),
+covering the same language in more depth, and adding articles on topics it
+leaves out.
 
 ## Topics
 
