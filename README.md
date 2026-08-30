@@ -1,16 +1,19 @@
 # Swift Language Guide Extended
 
-An extended edition of Apple's [Swift Language Guide][guide], published as a
-DocC site: **https://gestrich.github.io/swift-language-guide-extended/**
+A guide to the Swift language, published as a DocC site:
+**https://gestrich.github.io/swift-language-guide-extended/**
+
+It covers Swift's syntax, the rules behind that syntax, and the behavior you
+get at runtime, one feature at a time. An article states a rule, shows a short
+example of it working, and marks the edges of the feature — the cases where it
+does not apply and the mistakes it invites. It is written for someone who
+already writes Swift and wants one concept explained properly.
+
+The material expands on Apple's [Swift Language Guide][guide], covering the
+same language in more depth and adding articles on topics it leaves out — ABI
+stability, library evolution, type erasure, and similar material.
 
 [guide]: https://docs.swift.org/swift-book/documentation/the-swift-programming-language/
-
-The site is not a summary. It covers the same concepts and information the
-guide covers, interpreted and expanded — experiments that validate or extend
-what the guide says, explanations restated in a clearer form, and material the
-guide leaves implicit. It is written to be read in place of the guide, so
-coverage matters more than the examples: Apple's examples are not preserved,
-but every concept the guide conveys should be.
 
 ## Layout
 
