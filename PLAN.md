@@ -190,11 +190,11 @@ in this step.
    asset link breaks. Keep the `setup-swift` step and the root `index.html`
    redirect for the reasons given in Reference material.
 7. Copy `/Users/bill/Developer/work/ios/.claude/skills/documentation/SKILL.md`
-   into `.claude/skills/docc/SKILL.md` and adapt it: strip the ForeFlight
-   framing, drop the API comment sections (this project documents a language, not
-   an API surface), and keep the catalog layout, article shape, `## Topics`
-   sidebar grouping, link syntax, callouts, and the syntax gotchas. Rewrite the
-   frontmatter `name` and `description` for this project.
+   into `~/.claude/skills/docc-bill/SKILL.md` and adapt it: strip the ForeFlight
+   framing and keep the catalog layout, article shape, `## Topics` sidebar
+   grouping, link syntax, callouts, and the syntax gotchas. The skill is
+   personal, not repo-local, so it must stay general enough to apply to any
+   Swift package — this project's specifics belong in it only as examples.
 8. Verify the build locally before pushing anything:
    `swift package --allow-writing-to-directory ./_site generate-documentation --target SwiftLanguageGuideExtended --disable-indexing --transform-for-static-hosting --hosting-base-path swift-language-guide-extended --output-path ./_site`
 9. Create the remote: `gh repo create gestrich/swift-language-guide-extended --public`.
@@ -243,10 +243,15 @@ in this step.
   `3207996+gestrich@users.noreply.github.com`.
 - *`--disable-indexing` was kept* from SwiftLinuxDemo without evaluating it.
   Step 5 already plans to revisit whether removing it improves search.
-- *The DocC skill landed at `.claude/skills/docc/SKILL.md`* and its frontmatter
-  name is `docc`. A skill by the same name exists in Bill's global setup; the
-  repo-local one should win inside this project, but if both appear in a
-  listing, the one describing ForeFlight conventions is the wrong one.
+- *The DocC skill lives at `~/.claude/skills/docc-bill/SKILL.md`*, not in this
+  repo. It started as a repo-local skill named `docc`, which collided with a
+  personal skill of the same name; the personal one won the name and was marked
+  `user-invocable: false`, so no slash command was registered and the repo-local
+  skill never appeared in the listing. The two were merged into one personal
+  skill instead, which also drops the stale `add-docc.py`, `/add-docc`,
+  `module-structure`, and `dev-app` references the personal one carried — none
+  of those exist. Only `writing-articles` stays repo-local, because its
+  editorial conventions are specific to this site.
 
 ## Step 2 — Write the authoring skill: article structure and writing voice
 
