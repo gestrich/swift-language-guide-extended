@@ -35,10 +35,9 @@ let x = = =
 // error: expected initial value after '='
 ```
 
-That is what makes `#if` the tool for a symbol that a platform does not have.
-No availability check can rescue `import UIKit` in a macOS build, because there
-is no version of macOS that has the module. `canImport` tests for the module
-itself:
+`#if` is therefore the tool for a symbol that a platform does not have. No
+availability check makes `import UIKit` compile in a macOS build, because no
+version of macOS has the module. `canImport` tests for the module itself:
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "canImport")
 
@@ -72,8 +71,7 @@ be older than the compiler.
 
 Neither says anything about the machine the code will run on. They exist for
 source that has to build across several toolchains — a package supporting more
-than one Swift release, say — rather than for anything a user of the app would
-notice.
+than one Swift release, say.
 
 > Note: In a playground, `#if` blocks behave differently from a compiled target,
 > and none of the branches above print. Test conditional compilation in a real

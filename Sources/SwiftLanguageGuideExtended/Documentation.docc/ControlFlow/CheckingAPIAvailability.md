@@ -12,7 +12,7 @@ headers and `.swiftinterface` files inside the selected Xcode.
 
 The compiler knows the version each SDK declaration was introduced in, and
 rejects any use of a declaration newer than the deployment target, because that
-build could land on a device where the symbol does not exist:
+build can run on a device where the symbol does not exist:
 
 ```swift
 Text("hi").glassEffect()

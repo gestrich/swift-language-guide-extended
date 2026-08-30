@@ -11,9 +11,9 @@ there is no implicit fall-through from one case to the next.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/SwitchStatements", slice: "basic")
 
-A case label holds a *pattern* rather than a value, which is what makes
-`switch` more than a chain of equality tests. The kinds of pattern are in
-<doc:Patterns>.
+A case label holds a *pattern* rather than a value: a range, a tuple shape, or
+an enumeration case with its payload all match without an equality test. The
+kinds of pattern are in <doc:Patterns>.
 
 ## Every case needs at least one statement
 
@@ -64,8 +64,7 @@ still runs.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/SwitchStatements", slice: "fallthrough")
 
-Because the pattern is skipped, the case fallen into cannot bind anything; there
-is nothing to bind from:
+Because the pattern is skipped, the case fallen into cannot bind anything:
 
 ```swift
 switch point {

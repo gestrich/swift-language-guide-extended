@@ -1,17 +1,16 @@
 # Deferred actions
 
-Schedule a block to run when execution leaves the current scope, whichever way
-it leaves.
+Run a block on every path that leaves the current scope.
 
 ## Overview
 
 A `defer` block runs at the end of the scope that contains it, no matter which
 statement ends that scope — the closing brace, a `return`, a `break`, a
-`continue`, or a thrown error. Its use is cleanup that has to happen on every
+`continue`, or a thrown error. Use it for cleanup that has to happen on every
 path.
 
-Without it, each exit path carries its own copy of the cleanup, and a `guard`
-added later — see <doc:EarlyExit> — is a new place to forget it.
+Without it, the cleanup has to be repeated on every exit path, including any
+`guard` added later — see <doc:EarlyExit>.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/DeferredActions", slice: "withoutDefer")
 
@@ -33,7 +32,7 @@ prints are the ones in effect at the end of the scope.
 ## The statement has to be reached to be scheduled
 
 A `defer` is scheduled when execution runs over it rather than when the scope
-is entered. A path that leaves before reaching it never registers it.
+is entered.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/DeferredActions", slice: "mustBeReached")
 
@@ -51,12 +50,11 @@ things do not depend on.
 ## It runs for a thrown error, but not for a crash
 
 Throwing leaves the scope, so the deferred block runs before the error reaches
-the caller. This is what makes `defer` the right place for cleanup in a throwing
-function.
+the caller.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/DeferredActions", slice: "runsOnThrow")
 
 Stopping the process is different. `fatalError`, `preconditionFailure`, and a
 trap such as an out-of-bounds subscript end the process without unwinding, so no
 deferred block runs. Cleanup that must happen even then belongs somewhere the
-operating system enforces, not in a `defer`.
+operating system enforces.

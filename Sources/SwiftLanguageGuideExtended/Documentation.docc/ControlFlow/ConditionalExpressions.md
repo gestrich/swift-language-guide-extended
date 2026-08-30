@@ -146,11 +146,12 @@ let warning: String = try if temperature == 60 { "lukewarm" }
 // warning: 'try' has no effect on 'if' expression
 ```
 
-## The ternary still wins for a two-way choice
+## Prefer a ternary for a two-way choice
 
 For one condition and two values the ternary is shorter and reads in one line.
-Nesting is where that reverses: a nested ternary buries the conditions, while a
-chained `if` expression keeps each one at the front of its own line.
+Nesting is where that reverses: a nested ternary puts each condition in the
+middle of the line, while a chained `if` expression keeps each one at the front
+of its own line.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "ternary")
 

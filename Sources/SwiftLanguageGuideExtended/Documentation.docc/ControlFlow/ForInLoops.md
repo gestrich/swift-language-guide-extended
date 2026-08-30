@@ -1,7 +1,6 @@
 # For-in loops
 
-Walk the elements of any sequence, with the loop variable bound fresh on every
-pass.
+Iterate over the elements of any sequence.
 
 ## Overview
 
@@ -42,7 +41,8 @@ half-open range.
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ForInLoops", slice: "strideTo")
 
 `stride(from:through:by:)` includes its end, matching a closed range — but only
-when the end lands on a step. Nothing rounds up to reach it.
+when the end lands on a step. Otherwise the sequence stops at the last step
+below it.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ForInLoops", slice: "strideThrough")
 

@@ -6,8 +6,7 @@ label or a condition.
 ## Overview
 
 A `case` label holds a pattern rather than a value. A pattern says what a value
-has to look like to match, and it can name the parts it matched along the way.
-That is what separates a `switch` from a chain of equality tests: a range, a
+has to look like to match, and it can name the parts it matched. A range, a
 tuple shape, an enumeration case with its payload, and a dynamic type are all
 patterns.
 

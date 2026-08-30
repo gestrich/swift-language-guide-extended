@@ -20,8 +20,7 @@ closing brace.
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "continueBasic")
 
 When the `continue` is the first thing in the body, a `where` clause on the loop
-says the same thing with less code and puts the condition where a reader looks
-for it.
+says the same thing with less code and keeps the condition in the loop header.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "continueVsWhere")
 
@@ -56,7 +55,7 @@ switch label accepts only `break`.
 
 The usual alternative to a label is a Boolean that the inner loop sets and the
 outer loop tests. It works, but the test after the inner loop is easy to leave
-out, and it does nothing else for the code.
+out.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "flag")
 

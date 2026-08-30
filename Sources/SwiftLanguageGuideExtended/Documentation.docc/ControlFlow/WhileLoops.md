@@ -28,10 +28,10 @@ guards the first pass.
 
 ## Process the current element, then advance
 
-A loop that walks a position through a collection has to choose whether to move
-the position before or after the work. Advancing first leaves the position
-pointing at an element the loop condition has not checked, so the body needs a
-second bounds test.
+A loop that moves an index through a collection has to choose whether to advance
+the index before or after the work. Advancing first leaves the index at an
+element the loop condition has not checked, so the body needs a second bounds
+test.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/WhileLoops", slice: "advanceFirst")
 

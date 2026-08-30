@@ -7,8 +7,8 @@ of the body at one level of indentation.
 
 A `guard` states a condition the code after it depends on. When the condition
 fails, the `else` block runs and has to leave the current scope. Anything a
-`guard` binds stays in scope for the rest of the enclosing block, which is what
-separates it from `if let`.
+`guard` binds stays in scope for the rest of the enclosing block, where an
+`if let` binding is confined to its own body.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/EarlyExit", slice: "guardBasic")
 
