@@ -17,8 +17,10 @@ concept the guide conveys should be.
 - `Sources/SwiftLanguageGuideExtended/Documentation.docc/` — the articles.
 - `.github/workflows/docs.yml` — builds the DocC archive on every push to
   `main` and deploys it to GitHub Pages.
-- `.claude/skills/` — skills describing DocC mechanics and the writing
-  conventions for this project.
+- `.agents/skills/` — skills describing the writing conventions for this
+  project (`.claude/` is a symlink to it).
+- `AGENTS.md` — instructions for AI agents working in this repo (`CLAUDE.md` is
+  a symlink to it).
 
 ## Building the docs locally
 
