@@ -34,8 +34,12 @@ jobs:
         with:
           swift-version: '6.2'
 
+      # apt-get update first: the runner image ships a package index that is
+      # often older than the mirrors, and installing against it 404s.
       - name: Install system dependencies
-        run: sudo apt-get install -y libcurl4-openssl-dev libxml2-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev
 
       - name: Build DocC archive
         run: |
