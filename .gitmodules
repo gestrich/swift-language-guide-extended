@@ -1,0 +1,3 @@
+[submodule "Reference/swift-book"]
+	path = Reference/swift-book
+	url = https://github.com/apple/swift-book.git

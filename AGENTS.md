@@ -19,6 +19,9 @@ private notes, or that chapters are still being migrated.
 - `Snippets/` — the compiled home of every code example, one folder per chapter
   and one file per article. DocC pulls them in with `@Snippet`; only
   `swift build` type checks them.
+- `Reference/swift-book/` — Apple's book itself, as a git submodule of
+  [apple/swift-book](https://github.com/apple/swift-book). Reference material
+  only; nothing in the package builds it. See "The original book" below.
 - `.agents/skills/` — project skills. `.claude/` is a symlink to `.agents/`.
 - `PLAN.md` — the migration plan and its record of decisions.
 - `.github/workflows/docs.yml` — builds and deploys to GitHub Pages on every
@@ -33,6 +36,25 @@ private notes, or that chapters are still being migrated.
 - `docc-bill` (personal skill set, not in this repo) — DocC mechanics: catalog
   layout, link syntax, Topics groups, snippets, the syntax DocC silently breaks
   on.
+
+## The original book
+
+`Reference/swift-book/` is a git submodule pinned to a commit of
+apple/swift-book, the repository docs.swift.org/swift-book is built from. Read
+a chapter from disk rather than fetching the page from the web — it is the same
+text, in DocC markdown, and it can be searched and diffed.
+
+- Chapters live under `Reference/swift-book/TSPL.docc/`, in `GuidedTour/`,
+  `LanguageGuide/`, `ReferenceManual/`, and `RevisionHistory/`. The file names
+  match the chapter titles: `LanguageGuide/ControlFlow.md`.
+- A fresh clone has the folder empty until `git submodule update --init`.
+  Cloning with `--recurse-submodules` does it in one step.
+- To move to a newer commit of the book, run `git submodule update --remote
+  Reference/swift-book` and commit the changed pointer.
+- `SummaryOfTheGrammar` has no source file. The published page is generated
+  from the grammar directives in the other chapters by `bin/generate-grammar`.
+- The Pages workflow does not check out submodules, so the deployed site never
+  depends on it.
 
 ## Working conventions
 
