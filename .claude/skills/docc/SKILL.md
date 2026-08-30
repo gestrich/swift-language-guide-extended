@@ -17,6 +17,8 @@ separate skill.
 ## Catalog Layout
 
 ```
+Snippets/
+  <Article>.swift                       compiled examples for that article
 Sources/SwiftLanguageGuideExtended/
   SwiftLanguageGuideExtended.swift      placeholder, not documentation
   Documentation.docc/
@@ -109,6 +111,13 @@ Child articles live in the folder that matches their sidebar group. Ordering
 inside a `###` group follows the order the links are written in, so the list is
 the running order of the site — not alphabetical.
 
+`## Topics` is curation, not a "see also" list. A `## Topics` section at the
+bottom of an article makes that article the *parent* of everything it links, so
+two articles that link each other produce
+`warning: Organizing 'A' under 'B' forms a cycle` and a sidebar that nests
+articles under one another. Every article on this site is curated once, from the
+landing page. Cross-links between articles go inline in the prose.
+
 ## Links
 
 - Another article: `<doc:ArticleName>` — the filename without `.md`, not the
@@ -164,6 +173,59 @@ let x = 1
 Fenced code in an article is inert text — DocC does not compile it. Keep code
 blocks narrow; the site is read on a phone, and a long line forces horizontal
 scrolling in the rendered block.
+
+## Snippets
+
+Every example that compiles lives in `Snippets/<Article>.swift`, one file per
+article, and is embedded in the article by a directive. Examples that
+demonstrate a compiler error cannot compile by definition, so those stay as
+fenced code blocks in the article.
+
+A snippet file is a single top-level Swift file. Regions of it are named with
+comment markers:
+
+```swift
+// snippet.hide
+// Setup the reader does not need to see.
+// snippet.show
+
+// snippet.strideTo
+for minuteMark in stride(from: 0, to: 60, by: 15) {
+    print(minuteMark)   // 0, 15, 30, 45
+}
+// snippet.end
+```
+
+Embed one named region with the `slice` argument. The path is
+`<package name>/Snippets/<file name without .swift>`:
+
+```markdown
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ForInLoops", slice: "strideTo")
+```
+
+The directive has to start its own line, with a blank line on each side. It
+renders as an ordinary Swift code block.
+
+Three things about snippets are easy to get wrong:
+
+- **The documentation build does not compile them.**
+  `generate-documentation` runs `snippet-extract`, which parses the file as
+  text. A snippet with a type error renders perfectly and the docs build
+  succeeds. Only `swift build` compiles them, which is why the workflow runs it
+  as its own step.
+- **One file is one scope.** All the slices in a file share top-level scope, so
+  every name in the file has to be unique, and a name introduced in one slice is
+  visible — but not shown — in the next.
+- **Literal inputs produce dead-code warnings.** `let hour = 6` followed by a
+  `switch` over `hour` gives `warning: will never be executed` on the cases that
+  cannot match, because the compiler folds the constant. Iterating a small array
+  of inputs, or taking the value as a function parameter, avoids the warning and
+  usually makes the example better.
+
+A misspelled `slice` or `path` is a build warning —
+`warning: Slice named 'x' doesn't exist in snippet 'Y'` — and the build still
+succeeds, with the code block silently missing from the page. Read the build
+output after adding one.
 
 ## Building
 

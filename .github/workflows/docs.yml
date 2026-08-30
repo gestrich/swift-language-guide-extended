@@ -41,6 +41,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libxml2-dev
 
+      # Snippets are the compiled home of every working example. The docs
+      # build extracts them textually and never type checks them, so a broken
+      # example would render fine and ship wrong. Only `swift build` compiles
+      # the files under Snippets/, so it runs on its own here.
+      - name: Compile example snippets
+        run: swift build
+
       - name: Build DocC archive
         run: |
           swift package \

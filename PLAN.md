@@ -396,6 +396,67 @@ CI. If snippets work, they are the answer.
 - Bill has reviewed the result and either approved the conventions or sent back
   changes, which are folded into the Step 2 skill before Step 4 begins.
 
+**Implementation notes**
+
+- *Snippets won, and the plan's ranking held up.* Compilable examples live in
+  `Snippets/<Article>.swift`, one file per article, cut into named regions with
+  `// snippet.<name>` / `// snippet.end` markers and embedded with
+  `@Snippet(path:slice:)`. Named slices are what makes this workable: an article
+  has ten or more examples, and without them a snippet would have to be a whole
+  file per example.
+- *The docs build does not compile snippets.* `generate-documentation` runs
+  `snippet-extract`, which reads the file as text. A snippet with a type error
+  renders correctly and the docs build succeeds. Only `swift build` compiles
+  them, so the workflow runs it as its own step ahead of the docs build. This
+  was verified by breaking a snippet on purpose: the docs build stayed green.
+- *Error demonstrations stay as fenced code blocks.* A large share of the
+  examples in this chapter exist to show a compiler diagnostic, and those cannot
+  be snippets by definition. The split is the rule now: if it compiles it is a
+  snippet, if it is an error it is a fenced block with the message quoted under
+  it. Every diagnostic in the eleven articles was produced by an actual
+  `swiftc` run rather than recalled.
+- *Two snippet constraints to plan around.* All slices in a file share one
+  top-level scope, so every name in the file must be unique. And a literal input
+  gets constant-folded, so `let hour = 6` followed by a `switch` over it emits
+  `warning: will never be executed` on the unreachable cases — iterating a small
+  array of inputs, or taking the value as a function parameter, avoids that and
+  usually makes the example better anyway.
+- *The chapter became eleven articles, not one.* At 1405 lines the playground
+  page is a chapter, and the Step 2 skill caps an article at one concept and
+  about six sections. The split, in guide order: `ForInLoops`, `WhileLoops`,
+  `IfStatements`, `SwitchStatements`, `ConditionalExpressions`, `Patterns`,
+  `ControlTransferStatements`, `EarlyExit`, `DeferredActions`,
+  `CheckingAPIAvailability` (already written in Step 2), and
+  `ConditionalCompilation`. Expect the same for Strings and The Basics in
+  Step 4; the inventory's line counts are counts of chapters, not of articles.
+- *A per-article `## Topics` section is wrong here.* DocC treats `## Topics` as
+  curation, so a "related articles" list at the bottom of an article makes that
+  article the parent of everything it links, producing
+  `warning: Organizing 'A' under 'B' forms a cycle` and a nested sidebar. Every
+  article is curated once, from the landing page; cross-links go inline in the
+  prose. The Step 2 skill said to close with `## Topics` and has been corrected.
+- *Backticks in headings render literally,* as the `docc` skill already warned.
+  DocC emits the heading text with the backtick characters in it. Headings that
+  needed to name an API say it bare: "stride steps by a fixed interval".
+- *The gap analysis was already closed.* `Control_Flow_Playground_Review.md`
+  predates the playground's current state; `if`/`switch` expressions, the
+  Patterns section, and Deferred Actions had all been written since. The two
+  items still open were folded in during migration: that overlapping cases are
+  allowed and the first match wins, and that `fallthrough` enters the next case
+  body without testing its pattern or its `where`.
+- *One finding came out of the migration.* The playground says `assert` cannot
+  satisfy a `guard` body. `assert(false, "…")` does satisfy it in a debug build,
+  because the optimizer inlines the literal-condition call to something that
+  does not return — and stops satisfying it under `-O`, where assertions are
+  removed. So the code compiles in Debug and fails to compile in Release. It is
+  in `EarlyExit`, with both diagnostics.
+- *Deliberate cuts from the playground page.* The parenthesis trivia around
+  bindings (`let (x) = 15`, `case ((let (x))):`) and the "switch condition
+  evaluates to a constant" warning, which no longer reproduces under `swiftc`.
+  The Objective-C statement-expression contrast was kept, in
+  `ConditionalExpressions`, because it is Bill's own material and it bears
+  directly on the feature being explained.
+
 ## Step 4 — Migrate the remaining pages
 
 - [ ] Migrate the rest of the playground pages, one at a time

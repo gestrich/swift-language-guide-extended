@@ -47,9 +47,10 @@ it. Do not list what the following sections will cover.
 what came before it. Six sections is a comfortable maximum; more than that
 usually means the article is two articles.
 
-Close with a `## Topics` section holding `<doc:...>` links to related articles
-when there are any. No summary section — the article ends when the last idea
-is explained.
+No summary section, and no closing list of related articles — the article ends
+when the last idea is explained. Links to other articles go inline in the prose,
+at the point where the reader would want them. A `## Topics` section inside an
+article is DocC curation and would re-parent the sidebar; see the `docc` skill.
 
 ## The Rhythm of a Section
 
@@ -84,6 +85,12 @@ Three optional section types recur and are worth reaching for:
 Examples are the point of these notes. The guide's examples are not reused;
 either a shorter example shows the same idea, or a longer one is needed to show
 it properly.
+
+Every example that compiles lives in `Snippets/<Article>.swift` and is embedded
+with an `@Snippet` directive, so that CI compiles it. An example that
+demonstrates a compiler error cannot compile, so it stays as a fenced code block
+in the article. The `docc` skill has the mechanics and the three ways snippets
+bite.
 
 - Fence every block as `swift`.
 - Keep lines under 72 columns. Anything wider scrolls sideways on a phone.

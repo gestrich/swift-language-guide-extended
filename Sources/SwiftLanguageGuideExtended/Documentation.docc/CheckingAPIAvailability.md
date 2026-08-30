@@ -119,7 +119,7 @@ import UIKit
 ```
 
 That is a job for `#if canImport(UIKit)`, which is resolved while the file is
-read rather than at run time.
+read rather than at run time. See <doc:ConditionalCompilation>.
 
 **It cannot gate a declaration.** A condition belongs to a statement, and a
 statement holds no declarations. Written in a type body it is

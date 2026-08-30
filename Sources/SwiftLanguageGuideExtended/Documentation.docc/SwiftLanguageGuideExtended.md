@@ -30,4 +30,14 @@ For Apple's original text, see
 
 ### Control Flow
 
+- <doc:ForInLoops>
+- <doc:WhileLoops>
+- <doc:IfStatements>
+- <doc:SwitchStatements>
+- <doc:ConditionalExpressions>
+- <doc:Patterns>
+- <doc:ControlTransferStatements>
+- <doc:EarlyExit>
+- <doc:DeferredActions>
 - <doc:CheckingAPIAvailability>
+- <doc:ConditionalCompilation>
