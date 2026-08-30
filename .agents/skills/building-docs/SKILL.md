@@ -38,6 +38,32 @@ and not locally. The output cannot be served from `_site` directly; see below.
 `preview` blocks the terminal, so it suits a person watching a file as they
 edit it, not an agent.
 
+## Say what was updated
+
+Every turn that rebuilds or publishes the site ends with a status line, after
+everything else in the reply — the summary of the change, the file links, any
+caveats. It is the last thing on screen so the state of the two copies of the
+site is never something the reader has to reconstruct.
+
+The line names the copies that now carry the change:
+
+```
+Docs updated locally: <local URL>
+Docs updated live: https://gestrich.github.io/swift-language-guide-extended/
+Docs updated locally (<local URL>) and live: https://gestrich.github.io/swift-language-guide-extended/
+```
+
+The local URL is the one `serve` printed. Use the `build` output path `_site`
+instead when the build was never served.
+
+"Live" means the Pages deploy finished and the change is visible at the URL,
+not that the commit was pushed. When the push has landed but the workflow is
+still running, say that instead:
+
+```
+Docs updated locally: <local URL>. The live site is still deploying.
+```
+
 ## Why there are two build shapes
 
 The deployed site lives under `https://gestrich.github.io/swift-language-guide-extended/`,
