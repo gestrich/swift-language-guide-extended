@@ -34,7 +34,6 @@ swift package --allow-writing-to-directory ./_site \
   --target SwiftLanguageGuideExtended \
   --disable-indexing \
   --transform-for-static-hosting \
-  --hosting-base-path swift-language-guide-extended \
   --output-path ./_site
 ```
 
@@ -45,7 +44,16 @@ not work, because the rendered page loads its assets by absolute path:
 python3 -m http.server 8000 --directory _site
 ```
 
-Open `http://localhost:8000/swift-language-guide-extended/documentation/swiftlanguageguideextended/`.
+Open `http://localhost:8000/documentation/swiftlanguageguideextended/`. Any free
+port works; 8000 is only the default in this command.
+
+The deployed site adds `--hosting-base-path swift-language-guide-extended`,
+which prefixes every asset path with that name. A build made with the flag has
+to be served from a parent directory containing a `swift-language-guide-extended`
+directory (or a symlink to `_site` under that name) rather than from `_site`
+itself, and its URLs carry the prefix:
+`http://localhost:8000/swift-language-guide-extended/documentation/swiftlanguageguideextended/`.
+Leave the flag off unless you are reproducing a deployment problem.
 
 To preview without the static-hosting transform, `swift package preview-documentation
 --target SwiftLanguageGuideExtended` runs a local server that rebuilds on save.
