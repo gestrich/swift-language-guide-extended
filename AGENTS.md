@@ -1,7 +1,11 @@
 # Agent Instructions
 
-Personal notes on Apple's Swift Language Guide, published as a DocC site. See
-[README.md](README.md) for what the notes are and how to build the site locally.
+An extended edition of Apple's Swift Language Guide, published as a DocC site.
+See [README.md](README.md) for what the site is and how to build it locally.
+
+The site is written for readers learning the language. Nothing in the published
+articles refers to the project itself — how it is produced, that it started as
+private notes, or that chapters are still being migrated.
 
 ## Where things are
 

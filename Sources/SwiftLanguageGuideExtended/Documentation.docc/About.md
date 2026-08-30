@@ -1,34 +1,31 @@
-# About These Notes
+# About this guide
 
-Why this site exists and how it is organized.
+What the guide covers, who it is for, and how it is organized.
 
 ## Overview
 
-The notes on this site began as a single Xcode playground, one page per chapter
-of the Swift Language Guide, with commentary written as comments alongside
-compiling Swift. That format made the notes hard to read and impossible to
-link to, so they were moved here.
+This guide explains the Swift language one concept at a time. Each article
+states a rule, shows the smallest example that proves it, and marks the edges
+of the feature — the cases where it does not apply, and the mistakes it invites.
 
-This article is a placeholder. It exists so that navigation, the sidebar, and
-per-article URLs can be verified before any real content is migrated. It will be
-replaced as the chapters move over.
+The reader it assumes knows some Swift already and wants one concept explained
+properly, not an introduction to programming. Articles are meant to be read on
+their own, in any order, and are linked to each other where a concept depends
+on another.
 
-### What Belongs Here
+## What it covers
 
-An article per chapter of the Swift Language Guide, plus articles for topics
-that sit outside the guide's chapter list — ABI stability, library evolution,
-type erasure, and similar material.
+An article for each chapter of Apple's Swift Language Guide, plus articles on
+topics that sit outside the guide's chapter list — ABI stability, library
+evolution, type erasure, and similar material.
 
-### Building Locally
+Where this guide and Apple's differ, the difference is in depth rather than
+scope: the concepts are the same, and the explanations, experiments, and
+examples are written fresh.
 
-From the package root:
+## Code examples
 
-```
-swift package --allow-writing-to-directory ./_site \
-  generate-documentation \
-  --target SwiftLanguageGuideExtended \
-  --disable-indexing \
-  --transform-for-static-hosting \
-  --hosting-base-path swift-language-guide-extended \
-  --output-path ./_site
-```
+Every example that compiles is built as part of this package, so the code on
+the page is code the compiler accepted. Examples that demonstrate a compiler
+error are the exception — they cannot compile, and the diagnostic they produce
+is quoted verbatim beneath them.

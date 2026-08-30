@@ -1,20 +1,22 @@
 # Swift Language Guide Extended
 
-Personal notes on Apple's [Swift Language Guide][guide], published as a DocC
-site: **https://gestrich.github.io/swift-language-guide-extended/**
+An extended edition of Apple's [Swift Language Guide][guide], published as a
+DocC site: **https://gestrich.github.io/swift-language-guide-extended/**
 
 [guide]: https://docs.swift.org/swift-book/documentation/the-swift-programming-language/
 
-The notes are not a summary. They cover the same concepts and information the
+The site is not a summary. It covers the same concepts and information the
 guide covers, interpreted and expanded — experiments that validate or extend
 what the guide says, explanations restated in a clearer form, and material the
-guide leaves implicit. The goal is that they replace the guide, so the coverage
-matters more than the examples: Apple's examples are not preserved, but every
-concept the guide conveys should be.
+guide leaves implicit. It is written to be read in place of the guide, so
+coverage matters more than the examples: Apple's examples are not preserved,
+but every concept the guide conveys should be.
 
 ## Layout
 
 - `Sources/SwiftLanguageGuideExtended/Documentation.docc/` — the articles.
+- `Snippets/` — the compiled home of every code example, embedded with
+  `@Snippet`.
 - `.github/workflows/docs.yml` — builds the DocC archive on every push to
   `main` and deploys it to GitHub Pages.
 - `.agents/skills/` — skills describing the writing conventions for this

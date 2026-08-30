@@ -5,9 +5,11 @@ description: Editorial conventions for the articles on this site — the shape o
 
 # Writing Articles
 
-These articles are personal notes on Apple's Swift Language Guide, written to
-replace the guide rather than summarize it. A reader arrives knowing some Swift
-and wanting one concept explained properly. They read on a phone.
+These articles form an extended edition of Apple's Swift Language Guide,
+written to replace the guide rather than summarize it. A reader arrives knowing
+some Swift and wanting one concept explained properly. They read on a phone.
+They are not told anything about how the site is produced or where its material
+came from.
 
 This skill covers what an article looks like and how it is written. DocC
 mechanics — catalog layout, link syntax, what DocC silently mis-renders — are in
