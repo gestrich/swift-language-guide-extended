@@ -1,0 +1,77 @@
+name: Docs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build DocC
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ubuntu-24.04 already ships Swift, but the Ubuntu-supplied toolchain
+      # does not include the swift-docc *render artifacts* (CSS + JS) that
+      # DocC needs to produce a working static site. Generating documentation
+      # against the image-supplied Swift yields HTML that references
+      # `/css/...` and `/js/...` URLs that 404, so the page renders blank.
+      # The setup-swift bundle includes the render artifacts.
+      - name: Install Swift toolchain (for DocC render assets)
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: '6.2'
+
+      - name: Install system dependencies
+        run: sudo apt-get install -y libcurl4-openssl-dev libxml2-dev
+
+      - name: Build DocC archive
+        run: |
+          swift package \
+            --allow-writing-to-directory ./_site \
+            generate-documentation \
+            --target SwiftLanguageGuideExtended \
+            --disable-indexing \
+            --transform-for-static-hosting \
+            --hosting-base-path swift-language-guide-extended \
+            --output-path ./_site
+
+      # DocC puts the landing page at documentation/<lowercased-target-name>/,
+      # not at the site root, so the root needs a redirect.
+      - name: Add redirect at site root
+        run: |
+          cat > ./_site/index.html <<'EOF'
+          <!doctype html>
+          <meta http-equiv="refresh" content="0; url=./documentation/swiftlanguageguideextended/">
+          <title>Swift Language Guide Extended</title>
+          <a href="./documentation/swiftlanguageguideextended/">Swift Language Guide Extended</a>
+          EOF
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    name: Deploy to Pages
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
