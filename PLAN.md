@@ -556,3 +556,59 @@ articles.
 - Bill can find any concept from his phone in a few taps or one search.
 - Every article has a shareable URL.
 - The old playground clearly points at the new home.
+
+## Step 6 — Publish under pilotcoder.com
+
+- [ ] Serve the site from a subdomain of pilotcoder.com
+
+pilotcoder.com is Bill's blog — a WordPress site, with the posts and their
+publishing tooling in `~/Developer/personal/pilot-coder`. The guide is not a
+blog post and does not move into WordPress. It stays on GitHub Pages and gets a
+subdomain of the same domain, so both live under one name.
+
+**What to do**
+
+1. Pick the subdomain with Bill: `swift.pilotcoder.com` or
+   `guide.pilotcoder.com`. Everything below uses `<sub>` for the choice.
+2. Find where pilotcoder.com's DNS is managed. It is not in
+   `terraform-personal` — that repo holds no Route 53 zone for it, only a
+   commented-out ACM certificate for `test.pilotcoder.net`. Check the registrar
+   and the WordPress host before assuming.
+3. Add a `CNAME` record pointing `<sub>` at `gestrich.github.io`. A subdomain
+   takes a CNAME; the A records in GitHub's instructions are for an apex domain
+   only, and the apex here stays with WordPress.
+4. Set the custom domain in the repo: Settings → Pages → Custom domain. This
+   site deploys from an Actions artifact rather than a branch, so that setting
+   is what configures the domain — a `CNAME` file committed to the repo does
+   not. Confirm after the next deploy that the domain survived it. If it does
+   not, have `docs.sh build --hosted` write `$OUTPUT/CNAME` so the domain ships
+   inside the artifact.
+5. Drop the hosting base path. A custom domain serves the site at the domain
+   root, so `--hosting-base-path swift-language-guide-extended` in
+   `docs.sh` becomes wrong: every asset URL would ask for
+   `/swift-language-guide-extended/css/…`, which 404s and renders a blank page.
+   The root redirect is relative (`./documentation/…`) and needs no change.
+   Once the flag is gone the hosted and local builds have the same shape, so
+   rewrite the "Why there are two build shapes" section of the `building-docs`
+   skill, which will be describing a difference that no longer exists.
+6. Wait for the certificate. GitHub provisions one through Let's Encrypt after
+   DNS resolves, which can take up to an hour. Then tick "Enforce HTTPS".
+7. Check that `https://gestrich.github.io/swift-language-guide-extended/` still
+   reaches the site. Pages redirects the old URL to the custom domain once it is
+   set, but confirm it rather than assume — links to it exist outside this repo.
+8. Update every reference to the old URL: `README.md`, `CLAUDE.md`, the
+   `building-docs` skill's status lines and base-path explanation, and the
+   "Publish after every change" note at the top of this plan.
+9. Link the two sites. Add the guide to pilotcoder.com's navigation, and point
+   at it from the posts that came out of this material — *Fun With Swift
+   Numbers* and *Conditional Expressions in Swift*.
+
+**Completion criteria**
+
+- `https://<sub>.pilotcoder.com/` loads the landing page over HTTPS with a valid
+  certificate.
+- A deep link to an article loads with its CSS and JS — no blank page from a
+  stale base path.
+- A push to `main` redeploys and the custom domain survives the deploy.
+- The old `gestrich.github.io` URL still reaches the site.
+- pilotcoder.com links to the guide.
