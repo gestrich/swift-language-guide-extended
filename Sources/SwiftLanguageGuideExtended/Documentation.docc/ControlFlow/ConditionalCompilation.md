@@ -11,7 +11,7 @@ it survives to run time, which is the difference between `#if` and an
 availability condition: `#if` decides what is in the binary, and `#available`
 decides which of two compiled paths executes on the device.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalCompilation", slice: "platform")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "platform")
 
 Use `#if` when the code cannot exist on a platform. Use `#available` when the
 code exists but arrived in a later OS version. See
@@ -24,7 +24,7 @@ Swift, because the compiler still parses the whole file. It does not have to
 resolve: a call to a function that exists on no platform compiles fine as long
 as it is inside a branch that is not taken.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalCompilation", slice: "notTypeChecked")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "notTypeChecked")
 
 A syntax error is caught wherever it is:
 
@@ -40,7 +40,7 @@ No availability check can rescue `import UIKit` in a macOS build, because there
 is no version of macOS that has the module. `canImport` tests for the module
 itself:
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalCompilation", slice: "canImport")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "canImport")
 
 ## The condition uses operators, and takes no braces
 
@@ -48,7 +48,7 @@ A compilation condition is built from `!`, `&&`, and `||` over tests such as
 `os(...)`, `arch(...)`, `canImport(...)`, and `targetEnvironment(...)`. The
 block is delimited by `#if` and `#endif`, with no braces.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalCompilation", slice: "operators")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "operators")
 
 ## A block can hold declarations
 
@@ -56,7 +56,7 @@ Because `#if` selects text rather than statements, it can wrap anything a file
 can contain — an import, a type, a function, a property. That is how one source
 file supplies a different implementation of the same type per platform.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalCompilation", slice: "declarations")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "declarations")
 
 An availability condition cannot do this. It is part of a statement, and a
 statement holds no declarations.
@@ -68,7 +68,7 @@ version. `swift(>=6.0)` is true when the language mode in effect is at least
 that version, which is set by the package manifest or the build setting and can
 be older than the compiler.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalCompilation", slice: "toolchain")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "toolchain")
 
 Neither says anything about the machine the code will run on. They exist for
 source that has to build across several toolchains — a package supporting more

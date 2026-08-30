@@ -9,7 +9,7 @@ A `switch` takes a value and compares it against the pattern in each case label
 in order. The body of the first matching case runs, and then the switch ends —
 there is no implicit fall-through from one case to the next.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/SwitchStatements", slice: "basic")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/SwitchStatements", slice: "basic")
 
 A case label holds a *pattern* rather than a value, which is what makes
 `switch` more than a chain of equality tests. The kinds of pattern are in
@@ -21,7 +21,7 @@ A case cannot be empty; the compiler will not let one case run into the next by
 accident. When a case exists only to say "matched, and there is nothing to do",
 `break` is the statement to write.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/SwitchStatements", slice: "emptyCase")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/SwitchStatements", slice: "emptyCase")
 
 ## A switch must be exhaustive
 
@@ -41,7 +41,7 @@ The exhaustiveness check reasons about enum cases and tuples of them. It does
 not reason about numeric ranges, so a set of cases that provably covers every
 `Int` still needs a `default`.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/SwitchStatements", slice: "rangeNeedsDefault")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/SwitchStatements", slice: "rangeNeedsDefault")
 
 On an enum, that makes `default` worth avoiding. Listing the cases means adding
 a case to the enum turns every switch over it into a compile error, which is a
@@ -53,7 +53,7 @@ silently.
 Cases may overlap. They are tested top to bottom, and matching stops at the
 first one, so a more specific case has to come before a more general one.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/SwitchStatements", slice: "firstMatchWins")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/SwitchStatements", slice: "firstMatchWins")
 
 ## fallthrough enters the next case body without testing it
 
@@ -62,7 +62,7 @@ unconditionally. It does not evaluate that case's pattern, and it does not
 evaluate its `where` clause either — a case that could never match on its own
 still runs.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/SwitchStatements", slice: "fallthrough")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/SwitchStatements", slice: "fallthrough")
 
 Because the pattern is skipped, the case fallen into cannot bind anything; there
 is nothing to bind from:
@@ -88,7 +88,7 @@ better choice whenever the two bodies are identical.
 Inside a switch, `break` leaves the switch and execution continues after it. A
 loop containing that switch keeps going.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/SwitchStatements", slice: "breakInSwitch")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/SwitchStatements", slice: "breakInSwitch")
 
 To break out of the loop from inside the switch, label the loop and name it. See
 <doc:ControlTransferStatements>.

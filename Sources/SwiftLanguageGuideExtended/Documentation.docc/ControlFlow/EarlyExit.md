@@ -10,12 +10,12 @@ fails, the `else` block runs and has to leave the current scope. Anything a
 `guard` binds stays in scope for the rest of the enclosing block, which is what
 separates it from `if let`.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/EarlyExit", slice: "guardBasic")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/EarlyExit", slice: "guardBasic")
 
 The same function written with `if let` nests one level for each condition, and
 puts the failure handling further from the condition that caused it.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/EarlyExit", slice: "nestedIfLet")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/EarlyExit", slice: "nestedIfLet")
 
 ## The else block must leave the scope
 
@@ -34,12 +34,12 @@ guard let rawTemperature else {
 work too — see <doc:ControlTransferStatements> — which makes `guard` a way to
 skip an element without nesting the body.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/EarlyExit", slice: "guardInLoop")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/EarlyExit", slice: "guardInLoop")
 
 A call returning `Never` also satisfies the requirement, since it does not come
 back.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/EarlyExit", slice: "preconditionFailure")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/EarlyExit", slice: "preconditionFailure")
 
 ## assert satisfies the else block in debug builds only
 

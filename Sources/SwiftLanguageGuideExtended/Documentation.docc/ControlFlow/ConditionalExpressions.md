@@ -11,13 +11,13 @@ branch is a single expression, and the value of the branch that runs becomes the
 value of the whole `if`. Both forms are spelled the same way; the position
 decides which one it is.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "ifExpression")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "ifExpression")
 
 `switch` works as an expression on the same terms, with each case supplying a
 value. A function whose whole body is one expression needs no `return`, so the
 two combine well. The statement form is in <doc:SwitchStatements>.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "switchExpression")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "switchExpression")
 
 Both were added in Swift 5.9. Reach for them when every branch feeds one
 assignment or one return.
@@ -44,7 +44,7 @@ without a value is caught by the initialization check at its first *use*, and
 that check only exists because the declaration has no value yet. Give the
 variable a starting value and the check is gone:
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "silentTypo")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "silentTypo")
 
 Assigning `unrelatedAdvice` in one branch and `typoAdvice` in the other compiles
 without a diagnostic, and `typoAdvice` keeps its placeholder. The expression form
@@ -77,23 +77,23 @@ As the first error hints, `throw` is the exception. A throwing branch produces n
 value, so it may do work first as long as it ends in `throw`. The remaining
 branches determine the type of the expression.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "throwingBranch")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "throwingBranch")
 
 A call that returns `Never`, such as `fatalError()`, also stands in for a value —
 but it gets no such exemption and has to be the single expression in its branch.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "neverBranch")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "neverBranch")
 
 A `switch` expression has one more escape: `fallthrough`, where the case fallen
 into supplies the value.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "switchFallthrough")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "switchFallthrough")
 
 When a branch needs real setup work, the pre-5.9 form still applies: an
 immediately invoked closure has no single-expression limit, and it uses an
 explicit `return`.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "escapeHatch")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "escapeHatch")
 
 ## Branches are type checked independently
 
@@ -109,12 +109,12 @@ let adjustment = if temperature > 85 { 0 } else { 1.5 }
 The same rule is why a `nil` branch needs one: nothing in the branches says which
 optional type is meant.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "explicitType")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "explicitType")
 
 Conditional expressions nest inside each other and inside ternaries, and each
 nested expression is type checked the same way.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "nested")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "nested")
 
 ## Only a few positions accept one
 
@@ -131,7 +131,7 @@ print(if temperature > 85 { "hot" } else { "not hot" })
 That rules out an argument list and any larger expression, so
 `"Temp: " + (if ... )` does not compile either.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "positions")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "positions")
 
 The `return` is optional in `adviceWithoutReturn` for the same reason it is
 optional in any single-expression function body.
@@ -152,7 +152,7 @@ For one condition and two values the ternary is shorter and reads in one line.
 Nesting is where that reverses: a nested ternary buries the conditions, while a
 chained `if` expression keeps each one at the front of its own line.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ConditionalExpressions", slice: "ternary")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "ternary")
 
 A ternary branch can `try` a throwing call, but it cannot `throw`, because
 `throw` is a statement and both sides of a ternary must be expressions.

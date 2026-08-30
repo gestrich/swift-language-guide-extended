@@ -10,10 +10,15 @@ private notes, or that chapters are still being migrated.
 ## Where things are
 
 - `Sources/SwiftLanguageGuideExtended/Documentation.docc/` — the articles. One
-  file per concept; `SwiftLanguageGuideExtended.md` is the landing page and its
-  `## Topics` section controls the sidebar.
-- `Snippets/` — the compiled home of every code example. One file per article.
-  DocC pulls them in with `@Snippet`; only `swift build` type checks them.
+  file per concept, in a folder per chapter that also holds the chapter's own
+  page (`ControlFlow/ControlFlow.md`). `SwiftLanguageGuideExtended.md` is the
+  landing page. Folders only organize the files: the sidebar comes from the
+  `## Topics` sections, and every article's URL is
+  `/documentation/swiftlanguageguideextended/<filename>` whatever folder it is
+  in.
+- `Snippets/` — the compiled home of every code example, one folder per chapter
+  and one file per article. DocC pulls them in with `@Snippet`; only
+  `swift build` type checks them.
 - `.agents/skills/` — project skills. `.claude/` is a symlink to `.agents/`.
 - `PLAN.md` — the migration plan and its record of decisions.
 - `.github/workflows/docs.yml` — builds and deploys to GitHub Pages on every

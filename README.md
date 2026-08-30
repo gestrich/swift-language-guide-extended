@@ -16,7 +16,8 @@ same language in more depth.
 
 ## Layout
 
-- `Sources/SwiftLanguageGuideExtended/Documentation.docc/` — the articles.
+- `Sources/SwiftLanguageGuideExtended/Documentation.docc/` — the articles, one
+  folder per chapter.
 - `Snippets/` — the compiled home of every code example, embedded with
   `@Snippet`.
 - `.github/workflows/docs.yml` — builds the DocC archive on every push to

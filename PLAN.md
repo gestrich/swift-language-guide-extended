@@ -404,11 +404,29 @@ CI. If snippets work, they are the answer.
 **Implementation notes**
 
 - *Snippets won, and the plan's ranking held up.* Compilable examples live in
-  `Snippets/<Article>.swift`, one file per article, cut into named regions with
-  `// snippet.<name>` / `// snippet.end` markers and embedded with
+  `Snippets/<Chapter>/<Article>.swift`, one file per article, cut into named
+  regions with `// snippet.<name>` / `// snippet.end` markers and embedded with
   `@Snippet(path:slice:)`. Named slices are what makes this workable: an article
   has ten or more examples, and without them a snippet would have to be a whole
   file per example.
+- *Snippet folders group by chapter, but do not namespace.* Subdirectories under
+  `Snippets/` work — the `@Snippet` path mirrors them, so
+  `Snippets/ControlFlow/IfStatements.swift` is referenced as
+  `SwiftLanguageGuideExtended/Snippets/ControlFlow/IfStatements`. SwiftPM still
+  names each snippet product by the file's basename alone, so basenames must be
+  unique across the package; a duplicate is dropped with only
+  `warning: ignoring duplicate product '<name>' (snippet)`, and the `@Snippet`
+  referencing it renders nothing. Naming each file after its article keeps them
+  unique, and is why a chapter folder holds one file per article rather than one
+  per section.
+- *Articles are grouped in a folder per chapter too.* The catalog mirrors
+  `Snippets/`: `Documentation.docc/<Chapter>/<Article>.md`, with the chapter's
+  own page in the folder as `<Chapter>/<Chapter>.md`. The folder is filing only.
+  Article URLs stay `/documentation/swiftlanguageguideextended/<filename>`
+  however deep the file sits, `<doc:ArticleName>` resolves without the folder in
+  the path, and the sidebar comes from the `## Topics` sections. Filenames are
+  therefore still the permanent URLs, and still have to be unique across the
+  whole catalog.
 - *The docs build does not compile snippets.* `generate-documentation` runs
   `snippet-extract`, which reads the file as text. A snippet with a type error
   renders correctly and the docs build succeeds. Only `swift build` compiles

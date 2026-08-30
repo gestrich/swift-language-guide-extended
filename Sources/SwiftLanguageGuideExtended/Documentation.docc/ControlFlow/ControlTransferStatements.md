@@ -17,20 +17,20 @@ The rest of the body is abandoned and the loop moves on to the next element. In
 a `while` loop the condition is re-evaluated first, as it would be at the
 closing brace.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "continueBasic")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "continueBasic")
 
 When the `continue` is the first thing in the body, a `where` clause on the loop
 says the same thing with less code and puts the condition where a reader looks
 for it.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "continueVsWhere")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "continueVsWhere")
 
 ## break ends the innermost loop or switch
 
 Execution resumes at the first statement after the loop, so an outer loop
 containing it carries on with its next pass.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "breakInnerLoop")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "breakInnerLoop")
 
 Inside a `switch`, `break` ends the switch and leaves any enclosing loop
 running.
@@ -40,17 +40,17 @@ running.
 Prefixing a loop or a switch with an identifier and a colon lets `break` and
 `continue` name it. That reaches an outer loop from inside an inner one.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "labeledLoops")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "labeledLoops")
 
 On a `repeat`-`while` loop the label goes in front of `repeat`.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "repeatLabel")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "repeatLabel")
 
 A switch can carry a label too, which is how a case body ends the loop around it
 rather than the switch it is in. `continue` has no meaning for a switch, so a
 switch label accepts only `break`.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "breakLoopFromSwitch")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "breakLoopFromSwitch")
 
 ## A label replaces a flag that exists only to escape a loop
 
@@ -58,18 +58,18 @@ The usual alternative to a label is a Boolean that the inner loop sets and the
 outer loop tests. It works, but the test after the inner loop is easy to leave
 out, and it does nothing else for the code.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "flag")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "flag")
 
 The label says the same thing in one statement.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "labelInsteadOfFlag")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "labelInsteadOfFlag")
 
 ## A label on an if or do block is legal and worth avoiding
 
 An `if` or `do` block can be labeled, and `break` with that label skips the rest
 of the block and resumes after it.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlTransferStatements", slice: "labeledIf")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ControlTransferStatements", slice: "labeledIf")
 
 Nothing at the `break` shows how much code it skips, and that amount changes
 whenever the block is reordered or another conditional is nested inside it.

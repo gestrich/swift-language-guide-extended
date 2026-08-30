@@ -88,11 +88,11 @@ Examples are the point of these notes. The guide's examples are not reused;
 either a shorter example shows the same idea, or a longer one is needed to show
 it properly.
 
-Every example that compiles lives in `Snippets/<Article>.swift` and is embedded
-with an `@Snippet` directive, so that CI compiles it. An example that
-demonstrates a compiler error cannot compile, so it stays as a fenced code block
-in the article. The `docc` skill has the mechanics and the three ways snippets
-bite.
+Every example that compiles lives in a snippet file and is embedded with an
+`@Snippet` directive, so that CI compiles it. An example that demonstrates a
+compiler error cannot compile, so it stays as a fenced code block in the
+article. The section below covers where the files go; the `docc` skill has the
+mechanics and the three ways snippets bite.
 
 - Fence every block as `swift`.
 - Keep lines under 72 columns. Anything wider scrolls sideways on a phone.
@@ -116,6 +116,66 @@ if #available(iOS 26) { }
 An error message quoted from a real build is the strongest evidence an article
 can carry. Never invent one or paraphrase it from memory — compile the example
 and copy what the compiler printed.
+
+## Where Articles Live
+
+Articles are grouped by chapter, the same way snippets are — one folder per
+chapter, holding the chapter's own page and one file per article:
+
+```
+Sources/SwiftLanguageGuideExtended/Documentation.docc/
+    SwiftLanguageGuideExtended.md
+    About.md
+    ControlFlow/
+        ControlFlow.md
+        IfStatements.md
+```
+
+Pages that belong to no chapter, like the landing page and `About.md`, stay at
+the top level.
+
+The folder is filing and nothing else. An article's URL is
+`/documentation/swiftlanguageguideextended/<filename>` whatever folder holds
+it, `<doc:IfStatements>` links to it without naming the folder, and the sidebar
+comes from the `## Topics` sections. So a filename still has to be unique
+across the whole catalog, and moving a file between folders is safe while
+renaming it is not.
+
+## Where Snippets Live
+
+Snippets are grouped by chapter — one folder per chapter, one file per article:
+
+```
+Snippets/
+    ControlFlow/
+        IfStatements.swift
+        SwitchStatements.swift
+```
+
+The folder takes its name from the chapter's article (`ControlFlow.md`), the
+file from the article it serves (`IfStatements.md`), and each slice from the
+example it holds. The `@Snippet` path mirrors the directory:
+
+~~~markdown
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/IfStatements", slice: "basic")
+~~~
+
+A snippet file's name has to be unique across the whole package. SwiftPM builds
+each file as a product named by its basename and ignores the folders it sits
+in, so two files named `Basic.swift` in different chapters produce:
+
+```
+warning: ignoring duplicate product 'Basic' (snippet)
+```
+
+One of them is then dropped, and the `@Snippet` that referenced it renders
+nothing. Naming each file after its article keeps the names unique for free,
+because article names already are.
+
+That constraint is why a chapter folder holds one file per article and not one
+per section. Slices already divide an article's examples, and a file per
+section would need a chapter prefix in every name to stay unique — which is the
+flat layout again, with more files.
 
 ## Findings, Experiments, and Corrections
 

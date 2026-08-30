@@ -9,7 +9,7 @@ of `else if` and `else` clauses covers the other cases. The braces are part of
 the grammar rather than a style choice, so a single-statement body still needs
 them.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/IfStatements", slice: "basic")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/IfStatements", slice: "basic")
 
 Dropping them is a parse error:
 
@@ -23,7 +23,7 @@ if ready print("go")
 A chain that ends on `else if` is complete on its own. When no branch matches,
 nothing runs.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/IfStatements", slice: "noElse")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/IfStatements", slice: "noElse")
 
 That changes once the `if` is used as an expression, where every path has to
 produce a value. See <doc:ConditionalExpressions>.
@@ -42,7 +42,7 @@ if shopper { }
 //        test for '!= nil' instead
 ```
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/IfStatements", slice: "testExplicitly")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/IfStatements", slice: "testExplicitly")
 
 An optional usually wants `if let` rather than a `!= nil` test, so that the
 unwrapped value is available in the body.
@@ -53,7 +53,7 @@ A common use of an `if` statement is to give one variable a value. Declaring the
 constant without a value keeps the compiler's initialization check, which
 reports any path that fails to assign.
 
-@Snippet(path: "SwiftLanguageGuideExtended/Snippets/IfStatements", slice: "assignFromBranches")
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/IfStatements", slice: "assignFromBranches")
 
 The check catches a missing branch, but it reports it at the first *use* of the
 constant rather than at the `if`:
