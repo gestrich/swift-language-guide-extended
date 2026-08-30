@@ -23,14 +23,17 @@ private notes, or that chapters are still being migrated.
 
 - `writing-articles` (in `.agents/skills/`) — article shape, section rhythm,
   code example style, prose rules. Read before writing or editing any article.
+- `building-docs` (in `.agents/skills/`) — the script that builds, serves, and
+  deploys the site. Read before running any documentation build.
 - `docc-bill` (personal skill set, not in this repo) — DocC mechanics: catalog
   layout, link syntax, Topics groups, snippets, the syntax DocC silently breaks
   on.
 
 ## Working conventions
 
-- Run `swift build` after touching anything under `Snippets/` — the docs build
-  extracts snippets textually and will happily ship a broken example.
+- Build and serve the site only through `building-docs`. Its script compiles
+  the snippets first, which is the only thing that type checks them — the docs
+  build extracts them textually and will happily ship a broken example.
 - Publish after every change that touches the catalog: commit and push to
   `main`, then confirm it is live at
   https://gestrich.github.io/swift-language-guide-extended/.

@@ -41,34 +41,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libxml2-dev
 
-      # Snippets are the compiled home of every working example. The docs
-      # build extracts them textually and never type checks them, so a broken
-      # example would render fine and ship wrong. Only `swift build` compiles
-      # the files under Snippets/, so it runs on its own here.
-      - name: Compile example snippets
-        run: swift build
-
+      # The same script that builds the site locally. It compiles the
+      # snippets, builds with the hosting base path, and writes the redirect
+      # the site root needs. See .agents/skills/building-docs/SKILL.md.
       - name: Build DocC archive
-        run: |
-          swift package \
-            --allow-writing-to-directory ./_site \
-            generate-documentation \
-            --target SwiftLanguageGuideExtended \
-            --disable-indexing \
-            --transform-for-static-hosting \
-            --hosting-base-path swift-language-guide-extended \
-            --output-path ./_site
-
-      # DocC puts the landing page at documentation/<lowercased-target-name>/,
-      # not at the site root, so the root needs a redirect.
-      - name: Add redirect at site root
-        run: |
-          cat > ./_site/index.html <<'EOF'
-          <!doctype html>
-          <meta http-equiv="refresh" content="0; url=./documentation/swiftlanguageguideextended/">
-          <title>Swift Language Guide Extended</title>
-          <a href="./documentation/swiftlanguageguideextended/">Swift Language Guide Extended</a>
-          EOF
+        run: .agents/skills/building-docs/scripts/docs.sh build --hosted
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

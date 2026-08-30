@@ -28,32 +28,16 @@ same language in more depth.
 
 ## Building the docs locally
 
-```
-swift package --allow-writing-to-directory ./_site \
-  generate-documentation \
-  --target SwiftLanguageGuideExtended \
-  --disable-indexing \
-  --transform-for-static-hosting \
-  --output-path ./_site
-```
-
-Then serve `_site` over HTTP — opening the files directly with `file://` will
-not work, because the rendered page loads its assets by absolute path:
+One script builds and serves the site:
 
 ```
-python3 -m http.server 8000 --directory _site
+.agents/skills/building-docs/scripts/docs.sh serve
 ```
 
-Open `http://localhost:8000/documentation/swiftlanguageguideextended/`. Any free
-port works; 8000 is only the default in this command.
+It compiles the snippets, builds `_site`, serves it on a free port in the
+background, and prints the URL to open. `docs.sh stop` shuts the server down,
+`docs.sh build` builds without serving, and `docs.sh --help` lists the rest.
 
-The deployed site adds `--hosting-base-path swift-language-guide-extended`,
-which prefixes every asset path with that name. A build made with the flag has
-to be served from a parent directory containing a `swift-language-guide-extended`
-directory (or a symlink to `_site` under that name) rather than from `_site`
-itself, and its URLs carry the prefix:
-`http://localhost:8000/swift-language-guide-extended/documentation/swiftlanguageguideextended/`.
-Leave the flag off unless you are reproducing a deployment problem.
-
-To preview without the static-hosting transform, `swift package preview-documentation
---target SwiftLanguageGuideExtended` runs a local server that rebuilds on save.
+The same script runs in CI, so a build that works locally works there.
+`.agents/skills/building-docs/SKILL.md` explains the commands, why a deployed
+build differs from a local one, and why `file://` cannot open either.
