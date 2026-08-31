@@ -485,6 +485,18 @@ CI. If snippets work, they are the answer.
   The Objective-C statement-expression contrast was kept, in
   `ConditionalExpressions`, because it is Bill's own material and it bears
   directly on the feature being explained.
+- *`CheckingAPIAvailability` absorbed the whole `ControlFlowExperiment` catalog.*
+  The Step 2 version of the article was a partial port — `#available` only. The
+  six articles in `~/Downloads/ControlFlowExperiment` (run-time checks,
+  `@available`, compile-time checks, Objective-C, what ships in the binary, and
+  a decision guide) were merged into this one article, which is why it runs to
+  eleven sections rather than the usual six: `@available` and `#available` are
+  the same question asked at two grammar positions, and splitting them would
+  duplicate the deployment-target explanation both would need. The catalog's
+  `#if` material was dropped rather than merged, since `ConditionalCompilation`
+  already covers it, and its `#` sigil table went too — the one useful sentence
+  (a macro cannot expand into a condition) is in the article. Every diagnostic
+  was re-run against the current toolchain before being quoted.
 
 ## Step 4 — Migrate the remaining pages
 
