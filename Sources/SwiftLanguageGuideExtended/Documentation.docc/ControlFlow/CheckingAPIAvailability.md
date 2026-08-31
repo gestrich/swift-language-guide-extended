@@ -229,8 +229,14 @@ func neverAvailable() { }
 
 @available(*, noasync, message: "blocks the thread")
 func blocking() { }
-// calling it from an async function is an error in Swift 6 mode
+
+func caller() async { blocking() }
+// error: global function 'blocking' is unavailable from asynchronous
+//        contexts; blocks the thread
 ```
+
+That last one is an error in the Swift 6 language mode and a warning in the
+Swift 5 mode.
 
 A version with no platform gates on the Swift language mode — the
 `SWIFT_VERSION` build setting — rather than on any OS or on the compiler
@@ -244,12 +250,12 @@ func requiresSwift6LanguageMode() { }
 // note: 'requiresSwift6LanguageMode()' was introduced in Swift 6.0
 ```
 
-A related attribute goes the other way. `@backDeployed(before:)` compiles a copy
-of a function's body into every client that uses it, so callers running on OS
-versions older than the one the API shipped in run the copy instead of the
-version in the OS. It applies to functions, methods, subscripts, and computed
-properties in a library — not to types or stored properties, whose layout the OS
-owns.
+`@backDeployed(before:)` answers the reverse question — how to run a newer API
+on an older system instead of gating it. It compiles a copy of the function's
+body into every client that uses it, so callers on OS versions older than the
+one the API shipped in run the copy rather than the version in the OS. It
+applies to functions, methods, subscripts, and computed properties in a
+library, but not to types or stored properties, whose layout the OS owns.
 
 ```swift
 extension Box {
