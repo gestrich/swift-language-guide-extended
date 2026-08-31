@@ -49,6 +49,15 @@ block is delimited by `#if` and `#endif`, with no braces.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "operators")
 
+## A name the build defines is a condition on its own
+
+A bare identifier tests a flag the build passes in — `swiftc -D DEBUG`, or
+Xcode's `SWIFT_ACTIVE_COMPILATION_CONDITIONS` build setting, which is where
+`DEBUG` comes from in a stock Xcode project. The name has no value attached; it
+is either defined for this build or it is not.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "flags")
+
 ## A block can hold declarations
 
 Because `#if` selects text rather than statements, it can wrap anything a file
@@ -59,6 +68,17 @@ file supplies a different implementation of the same type per platform.
 
 An availability condition cannot do this. It is part of a statement, and a
 statement holds no declarations.
+
+## A block can also sit inside a member-access chain
+
+A `#if` may appear between the members of a chained call, so a modifier can be
+applied on one platform and skipped on another without repeating the whole
+expression.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "memberChain")
+
+The branch holds a suffix of the chain, so each branch has to leave the same
+type behind for the members that follow it.
 
 ## compiler and swift test the toolchain rather than the operating system
 
@@ -72,6 +92,13 @@ be older than the compiler.
 Neither says anything about the machine the code will run on. They exist for
 source that has to build across several toolchains — a package supporting more
 than one Swift release, say.
+
+For that job, `hasFeature(...)` and `hasAttribute(...)` are usually the better
+test. They ask whether the compiler enables an upcoming language feature or
+understands an attribute, which is the question a version number is being used
+to approximate.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "capabilities")
 
 > Note: In a playground, `#if` blocks behave differently from a compiled target,
 > and none of the branches above print. Test conditional compilation in a real

@@ -61,3 +61,35 @@ print("Compiled by Swift 6.0 or newer")
 print("Compiling in Swift 6 language mode or newer")
 #endif
 // snippet.end
+
+// snippet.flags
+#if DEBUG
+print("Extra logging is on")
+#else
+print("Release build")
+#endif
+// snippet.end
+
+// snippet.capabilities
+#if hasFeature(StrictConcurrency)
+print("Strict concurrency checking is on")
+#endif
+
+#if hasAttribute(retroactive)
+print("The compiler understands @retroactive")
+#endif
+// snippet.end
+
+// snippet.memberChain
+struct Panel {
+    func padded() -> Panel { self }
+    func describe() { print("a panel") }
+}
+
+let panel = Panel()
+    #if os(macOS)
+    .padded()
+    #endif
+
+panel.describe()
+// snippet.end

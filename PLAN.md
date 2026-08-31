@@ -493,9 +493,12 @@ CI. If snippets work, they are the answer.
   eleven sections rather than the usual six: `@available` and `#available` are
   the same question asked at two grammar positions, and splitting them would
   duplicate the deployment-target explanation both would need. The catalog's
-  `#if` material was dropped rather than merged, since `ConditionalCompilation`
-  already covers it, and its `#` sigil table went too — the one useful sentence
-  (a macro cannot expand into a condition) is in the article. Every diagnostic
+  `#if` material went to `ConditionalCompilation` instead of into the merge:
+  most of it was already there, and the three things that were not — a bare
+  name testing a build flag, `hasFeature`/`hasAttribute`, and `#if` inside a
+  member-access chain — were added there as sections with snippets. The `#`
+  sigil table was dropped; the one useful sentence (a macro cannot expand into
+  a condition) is in the article. Every diagnostic
   was re-run against the current toolchain before being quoted.
 
 ## Step 4 — Migrate the remaining pages
