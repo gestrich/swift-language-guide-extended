@@ -1,7 +1,7 @@
 # Checking API Availability
 
-Run an API that is newer than the oldest OS the app supports, without crashing
-on the devices that do not have it.
+Use an API that is newer than the oldest OS the app supports, and compile code
+only on the platforms that have it.
 
 ## Overview
 
@@ -36,8 +36,8 @@ if #available(iOS 26, *) {
 
 Both answer the question "is this API new enough that some users will not have
 it". A third construct, `#if`, answers a different question — whether the symbol
-exists on this platform at all — and is resolved while the file is read rather
-than at run time. See <doc:ConditionalCompilation>.
+exists on this platform at all. It is resolved while the file is read, so it
+decides what goes into the binary rather than which compiled branch runs.
 
 ## The #available condition
 
@@ -349,6 +349,84 @@ imported into Swift as `@available(iOS 26.0, *)`, and Swift then applies its own
 rule — a missing check is an error, even though the same call from Objective-C
 is only a warning.
 
+## Conditional compilation with #if
+
+`#if` is resolved as the file is read. The branch that matches is compiled, and
+the branches that do not match are removed before type checking. Nothing about
+it survives to run time.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "platform")
+
+A compilation condition is built from `!`, `&&`, and `||` over tests such as
+`os(...)`, `arch(...)`, `canImport(...)`, and `targetEnvironment(...)`. The
+block is delimited by `#if` and `#endif`, with no braces.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "operators")
+
+A bare identifier tests a flag the build passes in — `swiftc -D DEBUG`, or
+Xcode's `SWIFT_ACTIVE_COMPILATION_CONDITIONS` build setting, which is where
+`DEBUG` comes from in a stock Xcode project. The name has no value attached; it
+is either defined for this build or it is not.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "flags")
+
+`compiler(>=6.0)` is true when the compiler building the file is at least that
+version. `swift(>=6.0)` is true when the language mode in effect is at least
+that version, which is set by the package manifest or the build setting and can
+be older than the compiler. Neither says anything about the machine the code
+will run on. They exist for source that has to build across several toolchains —
+a package supporting more than one Swift release, say.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "toolchain")
+
+For that job, `hasFeature(...)` and `hasAttribute(...)` are usually the better
+test. They ask whether the compiler enables an upcoming language feature or
+understands an attribute, which is the question a version number is being used
+to approximate.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "capabilities")
+
+Code in a branch that is not taken has to be lexically and syntactically valid
+Swift, because the compiler still parses the whole file. It does not have to
+resolve: a call to a function that exists on no platform compiles fine as long
+as it is inside a branch that is not taken.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "notTypeChecked")
+
+A syntax error is caught wherever it is:
+
+```swift
+#if os(watchOS)
+let x = = =
+#endif
+// error: expected initial value after '='
+```
+
+> Note: In a playground, `#if` blocks behave differently from a compiled target,
+> and none of the branches above print. Test conditional compilation in a real
+> target.
+
+## Where a #if block can appear
+
+Because `#if` selects text rather than statements, it can wrap anything a file
+can contain — an import, a type, a function, a property. That is how one source
+file supplies a different implementation of the same type per platform.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "declarations")
+
+An availability condition cannot do this, for the reason the previous sections
+gave: it is part of a statement, and a statement holds no declarations. Gating a
+declaration by version is `@available`'s job; gating one by platform is `#if`'s.
+
+A `#if` may appear between the members of a chained call, so a modifier can be
+applied on one platform and skipped on another without repeating the whole
+expression.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "memberChain")
+
+The branch holds a suffix of the chain, so each branch has to leave the same
+type behind for the members that follow it.
+
 ## What a version check does not do
 
 **It does not validate the version against the SDK.** `#available(iOS 99, *)`
@@ -364,5 +442,8 @@ import UIKit
 // error: no such module 'UIKit'
 ```
 
-That is a job for `#if canImport(UIKit)`, which is resolved while the file is
-read. See <doc:ConditionalCompilation>.
+`canImport` is the test for that. It asks about the module rather than about a
+version, and it is resolved while the file is read, before the import is
+attempted:
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "canImport")

@@ -1,5 +1,5 @@
 // snippet.hide
-// Examples for the "Conditional compilation" article.
+// Examples for the "Checking API Availability" article.
 // snippet.show
 
 // snippet.platform

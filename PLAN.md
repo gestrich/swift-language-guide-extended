@@ -500,6 +500,26 @@ CI. If snippets work, they are the answer.
   sigil table was dropped; the one useful sentence (a macro cannot expand into
   a condition) is in the article. Every diagnostic
   was re-run against the current toolchain before being quoted.
+- *`ConditionalCompilation` was folded back into `CheckingAPIAvailability`,
+  leaving ten articles.* The article had no section behind it. Apple's Control
+  Flow chapter never mentions `#if` — the material sits in the Reference
+  Manual, under Statements → Compiler Control Statements → Conditional
+  Compilation Block, and the guide chapter ends at Checking API Availability.
+  Since the articles track the guide's sections, a chapter-level article with
+  no section to track is the wrong unit. Its five sections became two —
+  "Conditional compilation with #if" (the directive, compilation conditions and
+  their operators, bare build flags, `compiler`/`swift`,
+  `hasFeature`/`hasAttribute`, and inactive branches being parsed but not type
+  checked) and "Where a #if block can appear" (declarations, member chains).
+  Both sit after the Objective-C section, and "What a version check does not
+  do" moved to the end so it closes on `canImport` with the `#if` sections
+  already behind it. `Snippets/ControlFlow/ConditionalCompilation.swift` was
+  renamed to `CheckingAPIAvailability.swift` with its slices unchanged; the
+  article had used no snippets before, only fenced diagnostics. The result runs
+  to nine body sections, well past the skill's six, which is the cost of the
+  chapter having one section where the language has three constructs. Splitting
+  it again would only reproduce the article just deleted. This supersedes the
+  two entries above wherever they name `ConditionalCompilation` as an article.
 
 ## Step 4 — Migrate the remaining pages
 
