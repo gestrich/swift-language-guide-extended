@@ -45,9 +45,11 @@ have the correct mental model, just not the details. Give the problem the
 feature solves, the one-paragraph answer, and the smallest example that shows
 it. Do not list what the following sections will cover.
 
-**Body.** One `##` section per idea, ordered so each section only relies on
-what came before it. Six sections is a comfortable maximum; more than that
-usually means the article is two articles.
+**Body.** One `##` section per concept, ordered so each section only relies on
+what came before it. A concept is wider than a detail: `#available`'s syntax,
+its wildcard, and its `#unavailable` inverse belong under one heading. Four to
+six sections; more means details were given sections of their own, or the
+article is two articles.
 
 No summary section, and no closing list of related articles — the article ends
 when the last idea is explained. Links to other articles go inline in the prose,
@@ -68,9 +70,11 @@ Never leave a code block unexplained, and never explain in prose what the code
 already says line by line.
 
 Headings are sentence case and carry no backticks or links, which DocC renders
-literally. When a section exists to prove one point, make the heading that
-point: "The compiler raises the version floor inside the branch" beats
-"Compile-time behavior".
+literally. A heading names the concept the section covers — "The #available
+condition" — rather than a claim the section proves. A sentence-shaped heading
+is one detail wide, which is how an article reaches ten of them.
+
+A section covering a concept runs the three beats once per detail it holds.
 
 Three optional section types recur and are worth reaching for:
 
@@ -233,7 +237,7 @@ say the whole thing.
 ## An Annotated Section
 
 ~~~markdown
-## The wildcard is required                    <- the point, as the heading
+## The #available condition                    <- the concept, as the heading
 
 The condition is a list of platform-and-version pairs, and it must end in
 `*`. Each pair applies only to a build for that platform; the `*` covers
@@ -251,7 +255,8 @@ if #available(iOS 26) { }
 
 So in an iOS build, `#available(macOS 99, *)` always takes the then-branch:
 the macOS clause does not apply, and the `*` decides.
-                                               <- one consequence, then stop
+                                               <- one consequence, then the
+                                                  next beat
 ~~~
 
 ## Do Not
@@ -259,8 +264,8 @@ the macOS clause does not apply, and the `*` decides.
 - Open an article with what it will cover, or close one with what it covered.
 - Write in the second person as a tutorial: "Let's take a look at", "you'll
   want to".
-- Number the headings, or make the heading a bare label like "Syntax" when the
-  section makes a claim.
+- Number the headings, or use one generic enough to fit any article — "Syntax",
+  "Notes".
 - Bullet-list a set of ideas that each need a paragraph. Bullets are for items
   that are genuinely parallel and genuinely short.
 - Restate a code block in prose underneath it.

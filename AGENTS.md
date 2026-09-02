@@ -62,6 +62,8 @@ text, in DocC markdown, and it can be searched and diffed.
   the snippets first, which is the only thing that type checks them — the docs
   build extracts them textually and will happily ship a broken example.
 - Publish after every change that touches the catalog: commit and push to
-  `main`, then confirm it is live at
-  https://gestrich.github.io/swift-language-guide-extended/.
+  `main`, then confirm it is live. End the reply with a link to each page that
+  changed, at its own URL rather than the site root —
+  https://gestrich.github.io/swift-language-guide-extended/documentation/swiftlanguageguideextended/checkingapiavailability.
+  `building-docs` has the wording.
 - Record non-obvious decisions in `PLAN.md` under the step they came from.

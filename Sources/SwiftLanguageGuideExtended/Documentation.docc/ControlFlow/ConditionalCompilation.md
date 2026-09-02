@@ -17,7 +17,7 @@ Use `#if` when the code cannot exist on a platform. Use `#available` when the
 code exists but arrived in a later OS version. See
 <doc:CheckingAPIAvailability>.
 
-## An inactive branch is parsed but not type checked
+## Inactive branches
 
 Code in a branch that is not taken has to be lexically and syntactically valid
 Swift, because the compiler still parses the whole file. It does not have to
@@ -41,15 +41,13 @@ version of macOS has the module. `canImport` tests for the module itself:
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "canImport")
 
-## The condition uses operators, and takes no braces
+## Compilation conditions
 
 A compilation condition is built from `!`, `&&`, and `||` over tests such as
 `os(...)`, `arch(...)`, `canImport(...)`, and `targetEnvironment(...)`. The
 block is delimited by `#if` and `#endif`, with no braces.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "operators")
-
-## A name the build defines is a condition on its own
 
 A bare identifier tests a flag the build passes in — `swiftc -D DEBUG`, or
 Xcode's `SWIFT_ACTIVE_COMPILATION_CONDITIONS` build setting, which is where
@@ -58,7 +56,7 @@ is either defined for this build or it is not.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalCompilation", slice: "flags")
 
-## A block can hold declarations
+## Where a block can appear
 
 Because `#if` selects text rather than statements, it can wrap anything a file
 can contain — an import, a type, a function, a property. That is how one source
@@ -69,8 +67,6 @@ file supplies a different implementation of the same type per platform.
 An availability condition cannot do this. It is part of a statement, and a
 statement holds no declarations.
 
-## A block can also sit inside a member-access chain
-
 A `#if` may appear between the members of a chained call, so a modifier can be
 applied on one platform and skipped on another without repeating the whole
 expression.
@@ -80,7 +76,7 @@ expression.
 The branch holds a suffix of the chain, so each branch has to leave the same
 type behind for the members that follow it.
 
-## compiler and swift test the toolchain rather than the operating system
+## Toolchain and language-mode conditions
 
 `compiler(>=6.0)` is true when the compiler building the file is at least that
 version. `swift(>=6.0)` is true when the language mode in effect is at least
