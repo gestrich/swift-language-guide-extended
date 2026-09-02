@@ -39,7 +39,7 @@ it". A third construct, `#if`, answers a different question — whether the symb
 exists on this platform at all — and is resolved while the file is read rather
 than at run time. See <doc:ConditionalCompilation>.
 
-## An availability condition is not an expression
+## The #available condition
 
 Swift's `if`, `guard`, and `while` take a comma-separated list of conditions,
 and the grammar allows four kinds:
@@ -79,12 +79,11 @@ freely in one list.
 if flag, let name = candidateName, #available(iOS 26, *) { }
 ```
 
-## The wildcard is required
-
-The condition is a list of platform-and-version pairs, and it must end in `*`.
-Each pair applies only to a build for that platform; the `*` covers every
-platform not named and means "the deployment target", which is always satisfied.
-A version can carry minor and patch components: `iOS 17.2.6` is valid.
+An availability condition is a list of platform-and-version pairs, and it must
+end in `*`. Each pair applies only to a build for that platform; the `*` covers
+every platform not named and means "the deployment target", which is always
+satisfied. A version can carry minor and patch components: `iOS 17.2.6` is
+valid.
 
 ```swift
 if #available(iOS 26, macOS 26, *) { }
@@ -96,7 +95,18 @@ if #available(iOS 26) { }
 So in an iOS build, `#available(macOS 99, *)` always takes the then-branch: the
 macOS clause does not apply to an iOS build, and the `*` decides.
 
-## The compiler raises the version floor inside the branch
+`#unavailable` runs its branch on OS versions *older* than the one named. Use it
+when the only interesting code is the fallback. It takes no wildcard, since
+there is nothing for the wildcard to decide:
+
+```swift
+if #unavailable(iOS 26) { installLegacyWorkaround() }
+
+if #unavailable(iOS 26, *) { }
+// error: platform wildcard '*' is always implicit in #unavailable
+```
+
+## Compile time and run time
 
 Inside the then-branch the compiler treats the checked version as the deployment
 target, so newer APIs type-check there. That compile-time effect makes the newer
@@ -126,20 +136,49 @@ func label() -> AnyView {
 }
 ```
 
-## The inverse check runs on older systems
-
-`#unavailable` runs its branch on OS versions *older* than the one named. Use it
-when the only interesting code is the fallback. It takes no wildcard, since
-there is nothing for the wildcard to decide:
+The difference between a run-time check and a compile-time one is visible in the
+compiled product. Two functions, one of each:
 
 ```swift
-if #unavailable(iOS 26) { installLegacyWorkaround() }
+public func runtimeCheck() {
+    if #available(macOS 26, *) { print("TAKEN_ON_NEW_OS") }
+    else { print("TAKEN_ON_OLD_OS") }
+}
 
-if #unavailable(iOS 26, *) { }
-// error: platform wildcard '*' is always implicit in #unavailable
+public func compileTimeCheck() {
+#if os(iOS)
+    print("COMPILED_FOR_IOS")
+#else
+    print("COMPILED_FOR_MACOS")
+#endif
+}
 ```
 
-## A condition cannot gate a declaration
+Built for macOS with optimization on, both `#available` branches are present and
+only one `#if` branch is:
+
+```
+$ swiftc -O -target arm64-apple-macos14.0 \
+      -emit-library -o lib.dylib checks.swift
+$ strings lib.dylib | grep -E 'TAKEN|COMPILED'
+TAKEN_ON_OLD_OS
+TAKEN_ON_NEW_OS
+COMPILED_FOR_MACOS
+```
+
+The run-time part of the mechanism is a single call:
+
+```
+$ nm -u lib.dylib | grep VersionAtLeast
+_$ss26_stdlib_isOSVersionAtLeastyBi1_Bw_BwBwtF
+```
+
+`_stdlib_isOSVersionAtLeast` asks the running OS for its version and returns a
+boolean. Compile the same file with a deployment target of macOS 26 or later and
+the call disappears, because the condition is then a constant the optimizer can
+fold.
+
+## @available on a declaration
 
 A condition is part of a statement, and a statement holds no declarations. The
 failure looks different depending on where the attempt is made. A type body
@@ -167,12 +206,10 @@ func outer() {
 }
 ```
 
-## @available attaches the constraint to a declaration
-
-`@available` applies to types, functions, properties, enum cases, extensions,
-and protocol conformances. The declaration is always compiled and always
-shipped; what changes is the version floor inside it and the rules at its call
-sites.
+`@available` is what gates a declaration. It applies to types, functions,
+properties, enum cases, extensions, and protocol conformances. The declaration
+is always compiled and always shipped; what changes is the version floor inside
+it and the rules at its call sites.
 
 ```swift
 @available(iOS 26, *)
@@ -194,7 +231,7 @@ the `*` is required. A clause naming a platform this build is not for has no
 effect: `@available(macOS 26, *)` constrains nothing in an iOS build, and the
 function is callable there with no check.
 
-## The long form deprecates, obsoletes, and renames
+## The long form of @available
 
 One platform, keyword arguments, and no `*`. This is the form that says more
 than "introduced in":
@@ -264,51 +301,7 @@ extension Box {
 }
 ```
 
-## Both branches ship in the binary
-
-The difference between a run-time check and a compile-time one is visible in the
-compiled product. Two functions, one of each:
-
-```swift
-public func runtimeCheck() {
-    if #available(macOS 26, *) { print("TAKEN_ON_NEW_OS") }
-    else { print("TAKEN_ON_OLD_OS") }
-}
-
-public func compileTimeCheck() {
-#if os(iOS)
-    print("COMPILED_FOR_IOS")
-#else
-    print("COMPILED_FOR_MACOS")
-#endif
-}
-```
-
-Built for macOS with optimization on, both `#available` branches are present and
-only one `#if` branch is:
-
-```
-$ swiftc -O -target arm64-apple-macos14.0 \
-      -emit-library -o lib.dylib checks.swift
-$ strings lib.dylib | grep -E 'TAKEN|COMPILED'
-TAKEN_ON_OLD_OS
-TAKEN_ON_NEW_OS
-COMPILED_FOR_MACOS
-```
-
-The run-time part of the mechanism is a single call:
-
-```
-$ nm -u lib.dylib | grep VersionAtLeast
-_$ss26_stdlib_isOSVersionAtLeastyBi1_Bw_BwBwtF
-```
-
-`_stdlib_isOSVersionAtLeast` asks the running OS for its version and returns a
-boolean. Compile the same file with a deployment target of macOS 26 or later and
-the call disappears, because the condition is then a constant the optimizer can
-fold.
-
-## Objective-C warns where Swift refuses to compile
+## Availability in Objective-C
 
 Objective-C has the same checks with different spellings. The run-time check is
 `@available`, with the same required `*` and the same raised version floor
