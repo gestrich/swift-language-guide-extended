@@ -45,34 +45,30 @@ everything else in the reply — the summary of the change, the file links, any
 caveats. It is the last thing on screen so the state of the two copies of the
 site is never something the reader has to reconstruct.
 
-The line links the page that changed, on every copy that now carries the
-change. Link the page itself, never the site root, so it can be opened and read
-without navigating. An article's URL is its filename lowercased:
+The line links each page that changed on the local server, at its own URL
+rather than the site root, so the reader can open it from the reply. An
+article's URL is its filename lowercased:
 
 ```
-https://gestrich.github.io/swift-language-guide-extended/documentation/swiftlanguageguideextended/checkingapiavailability
+http://localhost:8000/documentation/swiftlanguageguideextended/checkingapiavailability
 ```
 
-```
-Docs updated locally: <local URL>/documentation/swiftlanguageguideextended/<page>
-Docs updated live: https://gestrich.github.io/swift-language-guide-extended/documentation/swiftlanguageguideextended/<page>
-Docs updated locally (<local URL>/documentation/swiftlanguageguideextended/<page>) and live: https://gestrich.github.io/swift-language-guide-extended/documentation/swiftlanguageguideextended/<page>
-```
-
-When a change touched several pages, link each of them. When it touched enough
-that a list would be longer than the summary, link the landing page and name
-the pages in the summary above.
-
-The local URL is the one `serve` printed. Use the `build` output path `_site`
-instead when the build was never served — there is no local URL to link then,
-so the live link is the one that matters.
-
-"Live" means the Pages deploy finished and the change is visible at the URL,
-not that the commit was pushed. When the push has landed but the workflow is
-still running, say that instead:
+That link exists only while a server is running, so use `serve` rather than
+`build` for any change worth looking at, and take the port from what it printed.
 
 ```
-Docs updated locally: <local URL>/documentation/swiftlanguageguideextended/<page>. The live site is still deploying.
+Docs updated locally: <local page URL>
+Docs updated locally (<local page URL>) and live.
+```
+
+Link every page a change touched. When that list would run longer than the
+summary, link the landing page and name the pages in the summary above.
+
+"Live" means the Pages deploy finished, not that the commit was pushed. When
+the push has landed but the workflow is still running, say so:
+
+```
+Docs updated locally: <local page URL>. The live site is still deploying.
 ```
 
 ## Why there are two build shapes

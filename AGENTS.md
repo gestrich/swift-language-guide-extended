@@ -63,7 +63,9 @@ text, in DocC markdown, and it can be searched and diffed.
   build extracts them textually and will happily ship a broken example.
 - Publish after every change that touches the catalog: commit and push to
   `main`, then confirm it is live. End the reply with a link to each page that
-  changed, at its own URL rather than the site root —
-  https://gestrich.github.io/swift-language-guide-extended/documentation/swiftlanguageguideextended/checkingapiavailability.
-  `building-docs` has the wording.
+  changed on the local server, at its own URL rather than the site root, so it
+  can be opened from the reply —
+  http://localhost:8000/documentation/swiftlanguageguideextended/checkingapiavailability.
+  That means serving the site, not just building it. `building-docs` has the
+  wording.
 - Record non-obvious decisions in `PLAN.md` under the step they came from.
