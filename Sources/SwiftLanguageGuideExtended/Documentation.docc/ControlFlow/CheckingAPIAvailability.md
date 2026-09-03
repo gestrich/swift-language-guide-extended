@@ -257,6 +257,26 @@ staleAPI()
 // warning: 'staleAPI()' is deprecated: renamed to 'freshAPI'
 ```
 
+`unavailable` makes a declaration impossible to call. Name a platform and only
+builds for that platform are affected. It carries no version, so unlike
+`obsoleted:` there is nothing for a deployment target or an `#available` check
+to reach; the declaration is still compiled and shipped, and what the attribute
+rejects is the calls.
+
+```swift
+@available(macOS, unavailable)
+func notOnMac() { }
+
+notOnMac()
+// error: 'notOnMac()' is unavailable in macOS
+
+if #available(macOS 99, *) { notOnMac() }
+// error: 'notOnMac()' is unavailable in macOS
+```
+
+This is the Swift spelling of `API_UNAVAILABLE`, and how the SDK marks an API
+that a platform does not have at all.
+
 With `*` as the platform, the constraint applies everywhere:
 
 ```swift
