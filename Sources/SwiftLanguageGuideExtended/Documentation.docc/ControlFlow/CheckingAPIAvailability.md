@@ -39,7 +39,7 @@ it?" A third construct, `#if`, answers a different question — whether the
 symbol exists on this platform at all. It is resolved while the file is read,
 so it decides what goes into the binary rather than which compiled branch runs.
 
-## The #available condition
+## #available
 
 ### The condition list
 
@@ -99,7 +99,7 @@ if #available(iOS 26) { }
 So in an iOS build, `#available(macOS 99, *)` always takes the then-branch: the
 macOS clause does not apply to an iOS build, and the `*` applies instead.
 
-### The #unavailable condition
+### #unavailable
 
 `#unavailable` runs its branch on OS versions *older* than the one named. Use
 it when the only interesting code is the fallback. It takes no wildcard,
@@ -190,7 +190,7 @@ A version check does not validate the version against the SDK. `#available(iOS
 99, *)` compiles cleanly. The version is a number compared at run time; the SDK
 records only the version in which each *symbol* was introduced.
 
-## The @available attribute
+## @available
 
 ### What a condition cannot do
 
@@ -343,7 +343,7 @@ extension Box {
 }
 ```
 
-## Availability in Objective-C
+## Objective-C
 
 ### The run-time check
 
@@ -396,7 +396,7 @@ imported into Swift as `@available(iOS 26.0, *)`, and Swift then applies its own
 rule — a missing check is an error, even though the same call from Objective-C
 is only a warning.
 
-## Conditional compilation with #if
+## #if
 
 ### Compilation conditions
 
