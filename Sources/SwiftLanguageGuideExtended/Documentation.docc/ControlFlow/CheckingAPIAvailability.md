@@ -24,7 +24,7 @@ Swift has two ways to make that use legal, and they are different kinds of
 language construct. `#available` is a condition: it belongs to the condition
 list of an `if`, `guard`, or `while`, and the version is compared at run time.
 `@available` is an attribute: it attaches to a declaration, raises the version
-floor inside it, and pushes the check out to its callers.
+floor inside it, and requires its callers to do the check.
 
 ```swift
 if #available(iOS 26, *) {
@@ -35,9 +35,9 @@ if #available(iOS 26, *) {
 ```
 
 Both answer the question "is this API new enough that some users will not have
-it". A third construct, `#if`, answers a different question — whether the symbol
-exists on this platform at all. It is resolved while the file is read, so it
-decides what goes into the binary rather than which compiled branch runs.
+it?" A third construct, `#if`, answers a different question — whether the
+symbol exists on this platform at all. It is resolved while the file is read,
+so it decides what goes into the binary rather than which compiled branch runs.
 
 ## The #available condition
 
@@ -93,11 +93,11 @@ if #available(iOS 26) { }
 ```
 
 So in an iOS build, `#available(macOS 99, *)` always takes the then-branch: the
-macOS clause does not apply to an iOS build, and the `*` decides.
+macOS clause does not apply to an iOS build, and the `*` applies instead.
 
-`#unavailable` runs its branch on OS versions *older* than the one named. Use it
-when the only interesting code is the fallback. It takes no wildcard, since
-there is nothing for the wildcard to decide:
+`#unavailable` runs its branch on OS versions *older* than the one named. Use
+it when the only interesting code is the fallback. It takes no wildcard,
+because one is always implicit:
 
 ```swift
 if #unavailable(iOS 26) { installLegacyWorkaround() }
@@ -108,9 +108,9 @@ if #unavailable(iOS 26, *) { }
 
 ## Compile time and run time
 
-Inside the then-branch the compiler treats the checked version as the deployment
-target, so newer APIs type-check there. That compile-time effect makes the newer
-API legal; the run-time test only decides which branch executes.
+Inside the then-branch the compiler treats the checked version as the
+deployment target, so newer APIs type-check there; the run-time test only
+selects the branch that executes.
 
 ```swift
 if #available(iOS 26, *) {
@@ -206,10 +206,10 @@ func outer() {
 }
 ```
 
-`@available` is what gates a declaration. It applies to types, functions,
-properties, enum cases, extensions, and protocol conformances. The declaration
-is always compiled and always shipped; what changes is the version floor inside
-it and the rules at its call sites.
+`@available` gates a declaration. It applies to types, functions, properties,
+enum cases, extensions, and protocol conformances. The declaration is always
+compiled and always shipped; the attribute changes the version floor inside it
+and the rules at its call sites.
 
 ```swift
 @available(iOS 26, *)
@@ -233,8 +233,7 @@ function is callable there with no check.
 
 ## The long form of @available
 
-One platform, keyword arguments, and no `*`. This is the form that says more
-than "introduced in":
+One platform, keyword arguments, and no `*`. It says more than "introduced in":
 
 ```swift
 @available(iOS, introduced: 13.0, deprecated: 16.0, obsoleted: 30.0,
@@ -260,8 +259,8 @@ staleAPI()
 `unavailable` makes a declaration impossible to call. Name a platform and only
 builds for that platform are affected. It carries no version, so unlike
 `obsoleted:` there is nothing for a deployment target or an `#available` check
-to reach; the declaration is still compiled and shipped, and what the attribute
-rejects is the calls.
+to reach; the declaration is still compiled and shipped, and the attribute
+rejects the calls.
 
 ```swift
 @available(macOS, unavailable)
@@ -312,7 +311,8 @@ on an older system instead of gating it. It compiles a copy of the function's
 body into every client that uses it, so callers on OS versions older than the
 one the API shipped in run the copy rather than the version in the OS. It
 applies to functions, methods, subscripts, and computed properties in a
-library, but not to types or stored properties, whose layout the OS owns.
+library, but not to types or stored properties, whose layout is fixed by the
+OS.
 
 ```swift
 extension Box {
@@ -349,9 +349,8 @@ API_AVAILABLE(ios(26.0))
 @end
 ```
 
-The difference that matters is the severity. Using an API newer than the
-deployment target without a check is an error in Swift and a warning in
-Objective-C:
+The severity differs. Using an API newer than the deployment target without a
+check is an error in Swift and a warning in Objective-C:
 
 ```objc
 return [[NewInIOS26 new] describe];
@@ -435,8 +434,8 @@ file supplies a different implementation of the same type per platform.
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "declarations")
 
 An availability condition cannot do this, for the reason the previous sections
-gave: it is part of a statement, and a statement holds no declarations. Gating a
-declaration by version is `@available`'s job; gating one by platform is `#if`'s.
+gave: it is part of a statement, and a statement holds no declarations.
+`@available` gates a declaration by version; `#if` gates one by platform.
 
 A `#if` may appear between the members of a chained call, so a modifier can be
 applied on one platform and skipped on another without repeating the whole
@@ -444,8 +443,8 @@ expression.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "memberChain")
 
-The branch holds a suffix of the chain, so each branch has to leave the same
-type behind for the members that follow it.
+The branch holds a suffix of the chain, so each branch has to produce the same
+type for the members that follow it.
 
 ## What a version check does not do
 
@@ -454,8 +453,8 @@ compiles cleanly. The version is a number compared at run time; the SDK records
 only the version in which each *symbol* was introduced.
 
 **It cannot reach a symbol the platform does not have at all.** A version check
-answers when an API arrived on a platform, so no version of it rescues UIKit in
-a macOS build:
+answers when an API arrived on a platform, so no version number makes UIKit
+importable in a macOS build:
 
 ```swift
 import UIKit
