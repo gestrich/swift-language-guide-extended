@@ -41,6 +41,8 @@ so it decides what goes into the binary rather than which compiled branch runs.
 
 ## The #available condition
 
+### The condition list
+
 Swift's `if`, `guard`, and `while` take a comma-separated list of conditions,
 and the grammar allows four kinds:
 
@@ -79,6 +81,8 @@ freely in one list.
 if flag, let name = candidateName, #available(iOS 26, *) { }
 ```
 
+### Platforms and the wildcard
+
 An availability condition is a list of platform-and-version pairs, and it must
 end in `*`. Each pair applies only to a build for that platform; the `*` covers
 every platform not named and means "the deployment target", which is always
@@ -95,6 +99,8 @@ if #available(iOS 26) { }
 So in an iOS build, `#available(macOS 99, *)` always takes the then-branch: the
 macOS clause does not apply to an iOS build, and the `*` applies instead.
 
+### The #unavailable condition
+
 `#unavailable` runs its branch on OS versions *older* than the one named. Use
 it when the only interesting code is the fallback. It takes no wildcard,
 because one is always implicit:
@@ -106,7 +112,7 @@ if #unavailable(iOS 26, *) { }
 // error: platform wildcard '*' is always implicit in #unavailable
 ```
 
-## Compile time and run time
+### Compile time and run time
 
 Inside the then-branch the compiler treats the checked version as the
 deployment target, so newer APIs type-check there; the run-time test only
@@ -178,7 +184,15 @@ boolean. Compile the same file with a deployment target of macOS 26 or later and
 the call disappears, because the condition is then a constant the optimizer can
 fold.
 
-## @available on a declaration
+### What the check does not validate
+
+A version check does not validate the version against the SDK. `#available(iOS
+99, *)` compiles cleanly. The version is a number compared at run time; the SDK
+records only the version in which each *symbol* was introduced.
+
+## The @available attribute
+
+### What a condition cannot do
 
 A condition is part of a statement, and a statement holds no declarations. The
 failure looks different depending on where the attempt is made. A type body
@@ -206,6 +220,8 @@ func outer() {
 }
 ```
 
+### Gating a declaration
+
 `@available` gates a declaration. It applies to types, functions, properties,
 enum cases, extensions, and protocol conformances. The declaration is always
 compiled and always shipped; the attribute changes the version floor inside it
@@ -231,7 +247,7 @@ the `*` is required. A clause naming a platform this build is not for has no
 effect: `@available(macOS 26, *)` constrains nothing in an iOS build, and the
 function is callable there with no check.
 
-## The long form of @available
+### The long form
 
 One platform, keyword arguments, and no `*`. It says more than "introduced in":
 
@@ -255,6 +271,8 @@ func staleAPI() { }
 staleAPI()
 // warning: 'staleAPI()' is deprecated: renamed to 'freshAPI'
 ```
+
+### Unavailable declarations
 
 `unavailable` makes a declaration impossible to call. Name a platform and only
 builds for that platform are affected. It carries no version, so unlike
@@ -294,6 +312,8 @@ func caller() async { blocking() }
 That last one is an error in the Swift 6 language mode and a warning in the
 Swift 5 mode.
 
+### The Swift language mode
+
 A version with no platform gates on the Swift language mode — the
 `SWIFT_VERSION` build setting — rather than on any OS or on the compiler
 version:
@@ -305,6 +325,8 @@ func requiresSwift6LanguageMode() { }
 // error: 'requiresSwift6LanguageMode()' is unavailable in Swift
 // note: 'requiresSwift6LanguageMode()' was introduced in Swift 6.0
 ```
+
+### Back deployment
 
 `@backDeployed(before:)` answers the reverse question — how to run a newer API
 on an older system instead of gating it. It compiles a copy of the function's
@@ -323,6 +345,8 @@ extension Box {
 
 ## Availability in Objective-C
 
+### The run-time check
+
 Objective-C has the same checks with different spellings. The run-time check is
 `@available`, with the same required `*` and the same raised version floor
 inside the block. Clang lowers it to a call to `__builtin_available`.
@@ -336,6 +360,8 @@ if (@available(iOS 26.0, *)) {
 There is no `#unavailable`, and none is needed: here `@available` is an ordinary
 boolean condition, so `if (!@available(iOS 26.0, *))` is legal.
 
+### The declaration macros
+
 Declarations take macros rather than an attribute — `API_AVAILABLE(ios(26.0))`,
 `API_DEPRECATED("Use NewInIOS26 instead.", ios(13.0, 16.0))`, and
 `API_UNAVAILABLE(watchos)`, matching `@available`'s introduced, deprecated, and
@@ -348,6 +374,8 @@ API_AVAILABLE(ios(26.0))
 - (BOOL)helloWorld API_AVAILABLE(ios(26.0));
 @end
 ```
+
+### Warning versus error
 
 The severity differs. Using an API newer than the deployment target without a
 check is an error in Swift and a warning in Objective-C:
@@ -370,6 +398,8 @@ is only a warning.
 
 ## Conditional compilation with #if
 
+### Compilation conditions
+
 `#if` is resolved as the file is read. The branch that matches is compiled, and
 the branches that do not match are removed before type checking. Nothing about
 it survives to run time.
@@ -389,6 +419,8 @@ is either defined for this build or it is not.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "flags")
 
+### Toolchain and language mode
+
 `compiler(>=6.0)` is true when the compiler building the file is at least that
 version. `swift(>=6.0)` is true when the language mode in effect is at least
 that version, which is set by the package manifest or the build setting and can
@@ -404,6 +436,8 @@ understands an attribute, which is the question a version number is being used
 to approximate.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "capabilities")
+
+### What the compiler still checks
 
 Code in a branch that is not taken has to be lexically and syntactically valid
 Swift, because the compiler still parses the whole file. It does not have to
@@ -425,7 +459,7 @@ let x = = =
 > and none of the branches above print. Test conditional compilation in a real
 > target.
 
-## Where a #if block can appear
+### Where a #if block can appear
 
 Because `#if` selects text rather than statements, it can wrap anything a file
 can contain — an import, a type, a function, a property. That is how one source
@@ -446,15 +480,10 @@ expression.
 The branch holds a suffix of the chain, so each branch has to produce the same
 type for the members that follow it.
 
-## What a version check does not do
+### Modules a platform does not have
 
-**It does not validate the version against the SDK.** `#available(iOS 99, *)`
-compiles cleanly. The version is a number compared at run time; the SDK records
-only the version in which each *symbol* was introduced.
-
-**It cannot reach a symbol the platform does not have at all.** A version check
-answers when an API arrived on a platform, so no version number makes UIKit
-importable in a macOS build:
+A version check answers when an API arrived on a platform, so no version number
+makes UIKit importable in a macOS build:
 
 ```swift
 import UIKit
