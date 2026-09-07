@@ -17,7 +17,7 @@ the `docc` skill. Read both before writing.
 
 ## The Shape of an Article
 
-One article covers one concept. Every article has the same four parts, in this
+One article covers one concept. Every article has the same five parts, in this
 order:
 
 ```markdown
@@ -25,11 +25,20 @@ order:
 
 One sentence saying what the article covers.
 
+## Contents
+
+- <doc:#Overview>
+- <doc:#First-idea>
+    - <doc:#A-detail-of-the-first-idea>
+- <doc:#Second-idea>
+
 ## Overview
 
 Two or three paragraphs and one small example: the whole idea, stated plainly.
 
 ## First idea
+
+### A detail of the first idea
 
 ## Second idea
 ```
@@ -40,16 +49,34 @@ truncated in the sidebar. Name the concept, not the chapter number.
 **Abstract.** One sentence, no links. It appears under the title and in search
 results, so it says what the reader will learn, not that the article exists.
 
+**Contents.** A nested list of `<doc:#Anchor>` links, one entry per heading in
+the article, in the order the headings appear. DocC renders each link with its
+section's title, so the list carries no text of its own to fall out of date.
+The list also shows the hierarchy, which the page itself barely does: DocC
+renders a `##` heading about a sixth larger than a `###`, and on a phone that
+reads as one level.
+
+An anchor is the heading text with spaces replaced by hyphens and everything
+that is not a letter, a digit, or a hyphen removed. `## The #available
+condition` is `#The-available-condition`. Two headings that differ only in
+punctuation therefore collide: `## #available` and `## @available` are both
+`#available`, and a link meant for the first resolves to the second, silently.
+Give such a pair different words.
+
 **Overview.** The short version of the article. A reader who stops here should
 have the correct mental model, just not the details. Give the problem the
 feature solves, the one-paragraph answer, and the smallest example that shows
 it. Do not list what the following sections will cover.
 
 **Body.** One `##` section per concept, ordered so each section only relies on
-what came before it. A concept is wider than a detail: `#available`'s syntax,
-its wildcard, and its `#unavailable` inverse belong under one heading. Four to
-six sections; more means details were given sections of their own, or the
-article is two articles.
+what came before it. Four to six sections; more means the article is two
+articles.
+
+A `##` section is divided by `###` subsections, one per detail — `#available`'s
+syntax, its wildcard, and its `#unavailable` inverse are subsections of the one
+section about the condition. A section either holds subsections throughout or
+holds none; prose that sits loose above the first `###` reads as belonging to
+no subsection.
 
 No summary section, and no closing list of related articles — the article ends
 when the last idea is explained. Links to other articles go inline in the prose,
