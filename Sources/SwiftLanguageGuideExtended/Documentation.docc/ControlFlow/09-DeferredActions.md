@@ -10,7 +10,7 @@ statement ends that scope — the closing brace, a `return`, a `break`, a
 path.
 
 Without it, the cleanup has to be repeated on every exit path, including any
-`guard` added later — see <doc:EarlyExit>.
+`guard` added later — see <doc:08-EarlyExit>.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/DeferredActions", slice: "withoutDefer")
 

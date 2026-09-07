@@ -16,6 +16,12 @@ private notes, or that chapters are still being migrated.
   `## Topics` sections, and every article's URL is
   `/documentation/swiftlanguageguideextended/<filename>` whatever folder it is
   in.
+- Article filenames carry a two-digit prefix giving the article's position in
+  its chapter's `## Topics` list — `10-CheckingAPIAvailability.md` — so a
+  directory listing reads in reading order. The chapter's own page takes no
+  prefix, and neither do the snippet files. The prefix is part of the URL and
+  of every `<doc:>` link, so reordering a chapter means renumbering the files
+  below the change and the links that name them.
 - `Snippets/` — the compiled home of every code example, one folder per chapter
   and one file per article. DocC pulls them in with `@Snippet`; only
   `swift build` type checks them.

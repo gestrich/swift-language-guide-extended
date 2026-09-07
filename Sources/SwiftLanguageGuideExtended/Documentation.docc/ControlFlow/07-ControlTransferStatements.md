@@ -9,7 +9,7 @@ Swift has five statements that transfer control: `continue`, `break`,
 `fallthrough`, `return`, and `throw`. The first two belong to loops and
 switches, and each one applies to the innermost loop or switch that encloses it
 unless a label says otherwise. `fallthrough` is part of `switch` and is covered
-in <doc:SwitchStatements>.
+in <doc:04-SwitchStatements>.
 
 ## continue skips to the next pass of the innermost loop
 

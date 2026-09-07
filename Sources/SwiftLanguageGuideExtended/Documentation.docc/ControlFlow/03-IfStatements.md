@@ -26,7 +26,7 @@ nothing runs.
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/IfStatements", slice: "noElse")
 
 That changes once the `if` is used as an expression, where every path has to
-produce a value. See <doc:ConditionalExpressions>.
+produce a value. See <doc:05-ConditionalExpressions>.
 
 ## The condition must be a Bool
 
@@ -68,4 +68,4 @@ print(advice)
 ```
 
 An `if` expression names the target once and reports a gap at the declaration.
-That form is in <doc:ConditionalExpressions>.
+That form is in <doc:05-ConditionalExpressions>.

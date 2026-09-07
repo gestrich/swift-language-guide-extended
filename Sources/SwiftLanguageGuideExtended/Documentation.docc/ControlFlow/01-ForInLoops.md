@@ -75,8 +75,8 @@ cannot be used to subscript the collection.
 
 A `where` clause on the loop skips any element that fails it. It reads better
 than an `if` wrapping the whole body, and better than a `continue` on the first
-line — see <doc:ControlTransferStatements>. To filter on the *shape* of an
+line — see <doc:07-ControlTransferStatements>. To filter on the *shape* of an
 element rather than a condition, the loop takes a pattern instead; see
-<doc:Patterns>.
+<doc:06-Patterns>.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ForInLoops", slice: "whereClause")

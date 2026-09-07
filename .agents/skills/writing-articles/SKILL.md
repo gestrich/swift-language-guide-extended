@@ -278,7 +278,12 @@ the macOS clause does not apply, and the `*` decides.
 
 ## Filenames
 
-The filename is the article's public URL, so it is settled once and not
-changed. Use the concept in PascalCase with no chapter number —
-`CheckingAPIAvailability.md`, not `5-ControlFlow-Availability.md`. Chapter
-numbers change when Apple reorganizes the guide; concepts do not.
+The filename is a two-digit position in the chapter's `## Topics` list, then
+the concept in PascalCase: `10-CheckingAPIAvailability.md`. The number keeps a
+directory listing in reading order; the concept, not a chapter number, names
+the file, so a chapter that Apple reorganizes changes prefixes and nothing
+else.
+
+The filename is also the article's public URL and the target of every
+`<doc:>` link, so inserting an article means renumbering the files after it and
+updating the links that name them.

@@ -12,8 +12,8 @@ body may never run at all.
 
 Reach for `while` when the loop ends on a condition rather than on a count. A
 `for`-`in` loop over a range or a collection is clearer whenever the set of
-values is known up front; see <doc:ForInLoops>. Either form can also be left early with `break` or
-skipped ahead with `continue`; see <doc:ControlTransferStatements>.
+values is known up front; see <doc:01-ForInLoops>. Either form can also be left early with `break` or
+skipped ahead with `continue`; see <doc:07-ControlTransferStatements>.
 
 ## A repeat-while loop always runs the body once
 

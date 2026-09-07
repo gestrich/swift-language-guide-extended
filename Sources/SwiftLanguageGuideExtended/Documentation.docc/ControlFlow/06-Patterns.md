@@ -15,7 +15,7 @@ patterns.
 Patterns are not confined to `switch`; the same syntax works in an `if`, a
 `guard`, and a `for`-`in` loop. For the control-flow rules of the statement
 itself — exhaustiveness, `fallthrough`, and `break` — see
-<doc:SwitchStatements>.
+<doc:04-SwitchStatements>.
 
 ## The kinds of pattern
 

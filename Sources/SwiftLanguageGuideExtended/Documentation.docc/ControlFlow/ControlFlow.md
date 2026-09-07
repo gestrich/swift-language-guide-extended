@@ -10,13 +10,13 @@ scope early.
 
 ## Topics
 
-- <doc:ForInLoops>
-- <doc:WhileLoops>
-- <doc:IfStatements>
-- <doc:SwitchStatements>
-- <doc:ConditionalExpressions>
-- <doc:Patterns>
-- <doc:ControlTransferStatements>
-- <doc:EarlyExit>
-- <doc:DeferredActions>
-- <doc:CheckingAPIAvailability>
+- <doc:01-ForInLoops>
+- <doc:02-WhileLoops>
+- <doc:03-IfStatements>
+- <doc:04-SwitchStatements>
+- <doc:05-ConditionalExpressions>
+- <doc:06-Patterns>
+- <doc:07-ControlTransferStatements>
+- <doc:08-EarlyExit>
+- <doc:09-DeferredActions>
+- <doc:10-CheckingAPIAvailability>

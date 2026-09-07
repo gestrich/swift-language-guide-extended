@@ -31,7 +31,7 @@ guard let rawTemperature else {
 ```
 
 `return` and `throw` are the usual exits. Inside a loop, `continue` and `break`
-work too — see <doc:ControlTransferStatements> — which makes `guard` a way to
+work too — see <doc:07-ControlTransferStatements> — which makes `guard` a way to
 skip an element without nesting the body.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/EarlyExit", slice: "guardInLoop")

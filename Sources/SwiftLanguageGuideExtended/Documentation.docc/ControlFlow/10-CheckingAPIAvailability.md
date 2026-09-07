@@ -114,6 +114,15 @@ if #unavailable(iOS 26, *) { }
 
 ### Compile time and run time
 
+Poor Language:
+
+"Swift has two ways to make that use legal" <- "that use" is obtuse
+" Two settings describe that gap." <- Weird pattern
+
+Each section should begin with an opener like what it does simply with an example before more details. That section coudl say when to use the pattern. Then each sub section provides deeper details.
+Add information on newer API that like lets you check across platforms for same version
+Does #unavailable also run on other platforms not specified?
+
 Inside the then-branch the compiler treats the checked version as the
 deployment target, so newer APIs type-check there; the run-time test only
 selects the branch that executes.

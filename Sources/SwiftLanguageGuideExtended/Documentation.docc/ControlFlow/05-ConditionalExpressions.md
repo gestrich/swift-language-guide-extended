@@ -5,7 +5,7 @@ statements that branch to code.
 
 ## Overview
 
-An `if` *statement* branches to code, as in <doc:IfStatements>. Its branches may contain expressions, but
+An `if` *statement* branches to code, as in <doc:03-IfStatements>. Its branches may contain expressions, but
 the statement itself produces no value. An `if` *expression* produces one: each
 branch is a single expression, and the value of the branch that runs becomes the
 value of the whole `if`. Both forms are spelled the same way; the position
@@ -15,7 +15,7 @@ decides which one it is.
 
 `switch` works as an expression on the same terms, with each case supplying a
 value. A function whose whole body is one expression needs no `return`, so the
-two combine well. The statement form is in <doc:SwitchStatements>.
+two combine well. The statement form is in <doc:04-SwitchStatements>.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/ConditionalExpressions", slice: "switchExpression")
 

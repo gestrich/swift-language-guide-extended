@@ -13,7 +13,7 @@ there is no implicit fall-through from one case to the next.
 
 A case label holds a *pattern* rather than a value: a range, a tuple shape, or
 an enumeration case with its payload all match without an equality test. The
-kinds of pattern are in <doc:Patterns>.
+kinds of pattern are in <doc:06-Patterns>.
 
 ## Every case needs at least one statement
 
@@ -90,4 +90,4 @@ loop containing that switch keeps going.
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/SwitchStatements", slice: "breakInSwitch")
 
 To break out of the loop from inside the switch, label the loop and name it. See
-<doc:ControlTransferStatements>.
+<doc:07-ControlTransferStatements>.
