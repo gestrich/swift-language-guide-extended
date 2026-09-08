@@ -43,9 +43,11 @@ if #available(iOS 26, *) {
 ```
 
 Both answer the question "is this API new enough that some users will not have
-it?" A third construct, `#if`, answers a different question — whether the
-symbol exists on this platform at all. It is resolved while the file is read,
-so it decides what goes into the binary rather than which compiled branch runs.
+it?" A third construct, `#if`, asks nothing about an API. It tests how the
+build is configured — the platform, the architecture, the flags it was given —
+and the compiler reads only the branch that matches. The other branch is never
+compiled, so `#if` decides what the binary contains rather than which compiled
+branch runs.
 
 ## The #available condition
 
