@@ -7,28 +7,9 @@ only on the platforms that have it.
 
 - <doc:#Overview>
 - <doc:#The-available-condition>
-    - <doc:#The-condition-list>
-    - <doc:#Platforms-and-the-wildcard>
-    - <doc:#unavailable>
-    - <doc:#Compile-time-and-run-time>
-    - <doc:#What-the-check-does-not-validate>
 - <doc:#The-available-attribute>
-    - <doc:#What-a-condition-cannot-do>
-    - <doc:#Gating-a-declaration>
-    - <doc:#The-long-form>
-    - <doc:#Unavailable-declarations>
-    - <doc:#The-Swift-language-mode>
-    - <doc:#Back-deployment>
 - <doc:#Objective-C>
-    - <doc:#The-run-time-check>
-    - <doc:#The-declaration-macros>
-    - <doc:#Warning-versus-error>
 - <doc:#if>
-    - <doc:#Compilation-conditions>
-    - <doc:#Toolchain-and-language-mode>
-    - <doc:#What-the-compiler-still-checks>
-    - <doc:#Where-a-if-block-can-appear>
-    - <doc:#Modules-a-platform-does-not-have>
 
 ## Overview
 

@@ -29,7 +29,6 @@ One sentence saying what the article covers.
 
 - <doc:#Overview>
 - <doc:#First-idea>
-    - <doc:#A-detail-of-the-first-idea>
 - <doc:#Second-idea>
 
 ## Overview
@@ -49,13 +48,11 @@ truncated in the sidebar. Name the concept, not the chapter number.
 **Abstract.** One sentence, no links. It appears under the title and in search
 results, so it says what the reader will learn, not that the article exists.
 
-**Contents.** A nested list of `<doc:#Anchor>` links, one entry per heading in
-the article, in the order the headings appear. DocC renders each link with its
-section's title, so the list carries no text of its own to fall out of date.
-The list also shows the hierarchy, which the page itself barely does: DocC
-renders a `##` heading one step larger than a `###` — 1.88rem against 1.65rem
-at the widest breakpoint, both at the same weight — and on a phone that reads
-as one level.
+**Contents.** A flat list of `<doc:#Anchor>` links, one per `##` section, in
+the order the sections appear, so the reader has the shape of the article
+before reading it. `###` subsections stay out of the list. DocC renders each
+link with its section's title, so the list carries no text of its own to fall
+out of date.
 
 An anchor is the heading text with spaces replaced by hyphens and everything
 that is not a letter, a digit, or a hyphen removed. `## The #available
