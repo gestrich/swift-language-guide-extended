@@ -520,6 +520,14 @@ CI. If snippets work, they are the answer.
   chapter having one section where the language has three constructs. Splitting
   it again would only reproduce the article just deleted. This supersedes the
   two entries above wherever they name `ConditionalCompilation` as an article.
+- *A test target exists for experiments, and it runs on iOS.* Writing Checking
+  API Availability needed a place to try `#available`, `@available`, and `#if`
+  under a platform that is not the Mac the docs build on. Snippets cannot serve:
+  `swift build` compiles them for the host, and they are published, so they
+  cannot hold throwaway code. `Tests/SwiftLanguageGuideExtendedTests` is that
+  place, run through `scripts/test-ios.sh` on a simulator. The manifest declares
+  an iOS 17 deployment target so a check against iOS 26 is a real run-time
+  branch rather than a constant. The articles never reference the tests.
 
 ## Step 4 — Migrate the remaining pages
 

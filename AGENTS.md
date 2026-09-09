@@ -25,6 +25,10 @@ private notes, or that chapters are still being migrated.
 - `Snippets/` — the compiled home of every code example, one folder per chapter
   and one file per article. DocC pulls them in with `@Snippet`; only
   `swift build` type checks them.
+- `Tests/SwiftLanguageGuideExtendedTests/` — a scratch test target for trying
+  language behavior on an iOS simulator, one file per article that needs it.
+  `scripts/test-ios.sh` runs it. Nothing in the articles depends on it, and it
+  is not part of the docs build.
 - `Reference/swift-book/` — Apple's book itself, as a git submodule of
   [apple/swift-book](https://github.com/apple/swift-book). Reference material
   only; nothing in the package builds it. See "The original book" below.

@@ -3,6 +3,11 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftLanguageGuideExtended",
+    platforms: [
+        // Below iOS 26, so the availability experiments in the test target
+        // exercise real run-time checks rather than constants.
+        .iOS(.v17),
+    ],
     products: [
         .library(name: "SwiftLanguageGuideExtended", targets: ["SwiftLanguageGuideExtended"]),
     ],
@@ -11,5 +16,9 @@ let package = Package(
     ],
     targets: [
         .target(name: "SwiftLanguageGuideExtended"),
+        .testTarget(
+            name: "SwiftLanguageGuideExtendedTests",
+            dependencies: ["SwiftLanguageGuideExtended"]
+        ),
     ]
 )
