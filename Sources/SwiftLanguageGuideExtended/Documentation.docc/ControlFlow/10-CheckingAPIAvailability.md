@@ -49,13 +49,19 @@ and the compiler reads only the branch that matches. The other branch is never
 compiled, so `#if` decides what the binary contains rather than which compiled
 branch runs.
 
-| Construct | When to use it |
-| --- | --- |
-| `#available` | Run one branch on OS versions that have an API and another on versions that do not. The version is compared at run time, inside an `if`, `guard`, or `while`. |
-| `#unavailable` | The same check inverted: run a fallback only on OS versions older than the one named, when the new case needs no branch of its own. |
-| `@available` | Declare a type or function that needs a newer OS than the deployment target. The body can use that OS's APIs, and callers must check before using it. |
-| `@available(macOS, unavailable)` | Forbid a declaration on one platform, or on all of them with `*`. Every call is a compile error; no version check can reach it. |
-| `#if os(...)` | Compile code for some platforms only. The other branch is removed before type checking, so it can name modules and APIs the platform lacks. |
+The constructs divide by when they are decided. A run-time check compiles both
+branches, so every symbol in either branch has to exist in the SDK for the
+platform being built, including symbols a given device never reaches. A
+build-time check removes the branch that does not match before type checking,
+so the symbols it names need not exist for this build at all.
+
+| Construct | Decided at | When to use it |
+| --- | --- | --- |
+| `#available` | Run time | Run one branch on OS versions that have an API and another on versions that do not, inside an `if`, `guard`, or `while`. |
+| `#unavailable` | Run time | The same check inverted: run a fallback only on OS versions older than the one named, when the new case needs no branch of its own. |
+| `@available` | Run time, by the callers | Declare a type or function that needs a newer OS than the deployment target. The body can use that OS's APIs, and callers must check before using it. |
+| `@available(macOS, unavailable)` | Build time, though the body still compiles | Forbid a declaration on one platform, or on all of them with `*`. Every call is a compile error; no version check can reach it. |
+| `#if os(...)` | Build time | Compile code for some platforms only. The other branch is removed before type checking, so it can name modules and APIs the platform lacks. |
 
 ## The #available condition
 
