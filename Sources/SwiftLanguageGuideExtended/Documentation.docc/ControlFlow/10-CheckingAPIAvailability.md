@@ -55,6 +55,52 @@ type checked, so it can name modules and symbols this platform does not have.
 
 ## The #available condition
 
+### Checking the OS version
+
+`#available` is true when the OS the app is running on is at least the version
+named. It goes where a `Bool` would go in an `if`, `guard`, or `while`, and the
+branch it guards runs only on OS versions that have the API inside it.
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "versionCheck")
+
+The `guard` form leaves the rest of the function to the newer OS:
+
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "versionGuard")
+
+Both branches are compiled, and the comparison happens each time the statement
+runs, so one binary behaves differently on iOS 17 and on iOS 26.
+
+### Platforms and the wildcard
+
+An availability condition is a list of platform-and-version pairs, and it must
+end in `*`. Each pair applies only to a build for that platform; the `*` covers
+every platform not named and means "the deployment target", which is always
+satisfied. A version can carry minor and patch components: `iOS 17.2.6` is
+valid.
+
+```swift
+if #available(iOS 26, macOS 26, *) { }
+
+if #available(iOS 26) { }
+// error: must handle potential future platforms with '*'
+```
+
+So in an iOS build, `#available(macOS 99, *)` always takes the then-branch: the
+macOS clause does not apply to an iOS build, and the `*` applies instead.
+
+### #unavailable
+
+`#unavailable` runs its branch on OS versions *older* than the one named. Use
+it when the only interesting code is the fallback. It takes no wildcard,
+because one is always implicit:
+
+```swift
+if #unavailable(iOS 26) { installLegacyWorkaround() }
+
+if #unavailable(iOS 26, *) { }
+// error: platform wildcard '*' is always implicit in #unavailable
+```
+
 ### The condition list
 
 Swift's `if`, `guard`, and `while` take a comma-separated list of conditions,
@@ -95,37 +141,6 @@ freely in one list.
 if flag, let name = candidateName, #available(iOS 26, *) { }
 ```
 
-### Platforms and the wildcard
-
-An availability condition is a list of platform-and-version pairs, and it must
-end in `*`. Each pair applies only to a build for that platform; the `*` covers
-every platform not named and means "the deployment target", which is always
-satisfied. A version can carry minor and patch components: `iOS 17.2.6` is
-valid.
-
-```swift
-if #available(iOS 26, macOS 26, *) { }
-
-if #available(iOS 26) { }
-// error: must handle potential future platforms with '*'
-```
-
-So in an iOS build, `#available(macOS 99, *)` always takes the then-branch: the
-macOS clause does not apply to an iOS build, and the `*` applies instead.
-
-### #unavailable
-
-`#unavailable` runs its branch on OS versions *older* than the one named. Use
-it when the only interesting code is the fallback. It takes no wildcard,
-because one is always implicit:
-
-```swift
-if #unavailable(iOS 26) { installLegacyWorkaround() }
-
-if #unavailable(iOS 26, *) { }
-// error: platform wildcard '*' is always implicit in #unavailable
-```
-
 ### Compile time and run time
 
 Reviewed to here
@@ -137,8 +152,6 @@ Reviewed to here
 - Does API_AVAILABLE(ios(26.0)), the objc one, have an unavialbale version? How about @available(iOS 26.0, *)? #if os?
 - Can you have types that don't exist at all for that platform? 
 - What is something is marked unavailable AFTER a version? Can available check for it and will it compile?
-- The condition section should begin by saying what a the avialable conditnion is
-    the parts abotu what conditions are genrally should follow.
 - Consider defintions or concepts sections. 
 - Consider diagrams in article
 - Make writing-style global skill

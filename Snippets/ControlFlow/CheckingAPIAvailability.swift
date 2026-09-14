@@ -2,6 +2,21 @@
 // Examples for the "Checking API Availability" article.
 // snippet.show
 
+// snippet.versionCheck
+if #available(iOS 26, *) {
+    print("iOS 26 or newer")
+} else {
+    print("Older than iOS 26")
+}
+// snippet.end
+
+// snippet.versionGuard
+func configure() {
+    guard #available(iOS 26, *) else { return }
+    print("Only reached on iOS 26 or newer")
+}
+// snippet.end
+
 // snippet.platformOnly
 #if os(iOS)
 import UIKit
