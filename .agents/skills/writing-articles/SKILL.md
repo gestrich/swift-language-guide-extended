@@ -21,7 +21,7 @@ One article covers one concept. Every article has the same five parts, in this
 order:
 
 ```markdown
-# Checking API Availability
+# Early exit
 
 One sentence saying what the article covers.
 
@@ -55,11 +55,11 @@ link with its section's title, so the list carries no text of its own to fall
 out of date.
 
 An anchor is the heading text with spaces replaced by hyphens and everything
-that is not a letter, a digit, or a hyphen removed. `## The #available
-condition` is `#The-available-condition`. Two headings that differ only in
-punctuation therefore collide: `## #available` and `## @available` are both
-`#available`, and a link meant for the first resolves to the second, silently.
-Give such a pair different words.
+that is not a letter, a digit, or a hyphen removed. `## The guard
+statement` is `#The-guard-statement`. Two headings that differ only in
+punctuation therefore collide: `## The ?? operator` and `## The ! operator`
+are both `#The--operator`, and a link meant for the first resolves to the
+second, silently. Give such a pair different words.
 
 **Overview.** The short version of the article. A reader who stops here should
 have the correct mental model, just not the details. Give the problem the
@@ -70,11 +70,17 @@ it. Do not list what the following sections will cover.
 what came before it. Four to six sections; more means the article is two
 articles.
 
-A `##` section is divided by `###` subsections, one per detail — `#available`'s
-syntax, its wildcard, and its `#unavailable` inverse are subsections of the one
-section about the condition. A section either holds subsections throughout or
-holds none; prose that sits loose above the first `###` reads as belonging to
-no subsection.
+A `##` section is divided by `###` subsections, one per detail — `guard`'s
+condition, its `else` block, and the bindings it leaves in scope are
+subsections of the one section about the statement. A section either holds
+subsections throughout or holds none; prose that sits loose above the first
+`###` reads as belonging to no subsection.
+
+Within a `##` section, the subsections run from basic to complicated. The
+first shows the construct in its plainest use, so the reader has seen it work
+before anything is said about its parts; the ones after it add the variations,
+the rules, and the edge cases, each relying on what came before. Grammar and
+what the construct cannot do come last.
 
 No summary section, and no closing list of related articles — the article ends
 when the last idea is explained. Links to other articles go inline in the prose,
@@ -95,8 +101,8 @@ Never leave a code block unexplained, and never explain in prose what the code
 already says line by line.
 
 Headings are sentence case and carry no backticks or links, which DocC renders
-literally. A heading names the concept the section covers — "The #available
-condition" — rather than a claim the section proves. A sentence-shaped heading
+literally. A heading names the concept the section covers — "The guard
+statement" — rather than a claim the section proves. A sentence-shaped heading
 is one detail wide, which is how an article reaches ten of them.
 
 A section covering a concept runs the three beats once per detail it holds.
@@ -138,8 +144,9 @@ let count = names.count   // 3
   produces it, wrapping with the continuation indented to the message:
 
 ```swift
-if #available(iOS 26) { }
-// error: must handle potential future platforms with '*'
+guard let name else { print("no name") }
+// error: 'guard' body must not fall through, consider using a 'return'
+//        or 'throw' to exit the scope
 ```
 
 An error message quoted from a real build is the strongest evidence an article
@@ -213,7 +220,7 @@ error. The reader does not need to know which sentence came from Apple.
 Two exceptions, both DocC callouts:
 
 ```markdown
-> Experiment: Change the deployment target to iOS 26 and rebuild.
+> Experiment: Replace the `return` with a `print` and rebuild.
 ```
 
 Use `> Experiment:` for something the reader should run themselves, and
@@ -262,24 +269,25 @@ say the whole thing.
 ## An Annotated Section
 
 ~~~markdown
-## The #available condition                    <- the concept, as the heading
+## The guard statement                         <- the concept, as the heading
 
-The condition is a list of platform-and-version pairs, and it must end in
-`*`. Each pair applies only to a build for that platform; the `*` covers
-every platform not named and means "the deployment target".
+`guard` tests a condition and requires its `else` block to leave the
+enclosing scope. The compiler checks that every path out of the block
+returns, throws, or otherwise exits.
                                                <- the rule, in three lines
 
 ```swift
-if #available(iOS 26, macOS 26, *) { }
+guard let name else { return }
 
-if #available(iOS 26) { }
-// error: must handle potential future platforms with '*'
+guard let name else { print("no name") }
+// error: 'guard' body must not fall through, consider using a 'return'
+//        or 'throw' to exit the scope
 ```
                                                <- the working form, then the
                                                   failure and its real error
 
-So in an iOS build, `#available(macOS 99, *)` always takes the then-branch:
-the macOS clause does not apply, and the `*` decides.
+So a binding made by `guard` is in scope on every line after it, where one
+made by `if let` ends with the `if`.
                                                <- one consequence, then the
                                                   next beat
 ~~~
@@ -304,7 +312,7 @@ the macOS clause does not apply, and the `*` decides.
 ## Filenames
 
 The filename is a two-digit position in the chapter's `## Topics` list, then
-the concept in PascalCase: `10-CheckingAPIAvailability.md`. The number keeps a
+the concept in PascalCase: `08-EarlyExit.md`. The number keeps a
 directory listing in reading order; the concept, not a chapter number, names
 the file, so a chapter that Apple reorganizes changes prefixes and nothing
 else.

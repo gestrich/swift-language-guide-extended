@@ -3,6 +3,42 @@
 Use an API that is newer than the oldest OS the app supports, and compile code
 only on the platforms that have it.
 
+## TODO
+
+**Reviewed to: Start of The #available condition section**
+
+- The mac 99 feels like an anti-pattern (see the paragraph below the list)
+    Need clearer guidance on a pattern
+        Consider some tip of Best Practice tip, Decision tip, Practical tip, anti-pattern, When to use, etc.
+        The "choices" logic is probably the most important part of an article.
+- Does API_AVAILABLE(ios(26.0)), the objc one, have an unavialbale version? How about @available(iOS 26.0, *)? #if os?
+- Can you have types that don't exist at all for that platform? 
+- What is something is marked unavailable AFTER a version? Can available check for it and will it compile?
+- Consider defintions or concepts sections. 
+- Consider diagrams in article
+- Make writing-style global skill
+- Add the actual swift language guide as a package dependency for reference
+
+Notes on the mac 99 fix: `#available` and `#unavailable` both require a
+version, so there is no run-time spelling of "not on macOS"; `#if !os(macOS)`
+is the tool, and it is decided at compile time, so the skipped code never
+type checks. The compiler gives no warning for `#available(macOS 99, *)`. Line
+109 is illustrating clause selection, so keep the idea but use a real version
+(`macOS 26` in an iOS build). Line 319 is showing that no version check can
+reach an `unavailable` declaration; follow it with the `#if !os(macOS)` form
+that does compile, and state the pairing: `@available(macOS, unavailable)` on
+the declaration matches `#if !os(macOS)` at the call site. Link forward to the
+`#if` section.
+
+Poor Language:
+
+"Swift has two ways to make that use legal" <- "that use" is obtuse
+" Two settings describe that gap." <- Weird pattern
+
+Each section should begin with an opener like what it does simply with an example before more details. That section coudl say when to use the pattern. Then each sub section provides deeper details.
+Add information on newer API that like lets you check across platforms for same version
+Does #unavailable also run on other platforms not specified?
+
 ## Contents
 
 - <doc:#Overview>
@@ -142,40 +178,6 @@ if flag, let name = candidateName, #available(iOS 26, *) { }
 ```
 
 ### Compile time and run time
-
-Reviewed to here
-
-- The mac 99 feels like an anti-pattern (see the paragraph below the list)
-    Need clearer guidance on a pattern
-        Consider some tip of Best Practice tip, Decision tip, Practical tip, anti-pattern, When to use, etc.
-        The "choices" logic is probably the most important part of an article.
-- Does API_AVAILABLE(ios(26.0)), the objc one, have an unavialbale version? How about @available(iOS 26.0, *)? #if os?
-- Can you have types that don't exist at all for that platform? 
-- What is something is marked unavailable AFTER a version? Can available check for it and will it compile?
-- Consider defintions or concepts sections. 
-- Consider diagrams in article
-- Make writing-style global skill
-- Add the actual swift language guide as a package dependency for reference
-
-Notes on the mac 99 fix: `#available` and `#unavailable` both require a
-version, so there is no run-time spelling of "not on macOS"; `#if !os(macOS)`
-is the tool, and it is decided at compile time, so the skipped code never
-type checks. The compiler gives no warning for `#available(macOS 99, *)`. Line
-109 is illustrating clause selection, so keep the idea but use a real version
-(`macOS 26` in an iOS build). Line 319 is showing that no version check can
-reach an `unavailable` declaration; follow it with the `#if !os(macOS)` form
-that does compile, and state the pairing: `@available(macOS, unavailable)` on
-the declaration matches `#if !os(macOS)` at the call site. Link forward to the
-`#if` section.
-
-Poor Language:
-
-"Swift has two ways to make that use legal" <- "that use" is obtuse
-" Two settings describe that gap." <- Weird pattern
-
-Each section should begin with an opener like what it does simply with an example before more details. That section coudl say when to use the pattern. Then each sub section provides deeper details.
-Add information on newer API that like lets you check across platforms for same version
-Does #unavailable also run on other platforms not specified?
 
 Inside the then-branch the compiler treats the checked version as the
 deployment target, so newer APIs type-check there; the run-time test only
