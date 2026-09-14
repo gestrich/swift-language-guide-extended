@@ -2,6 +2,13 @@
 // Examples for the "Checking API Availability" article.
 // snippet.show
 
+// snippet.platformOnly
+#if os(iOS)
+import UIKit
+let idiom = UIDevice.current.userInterfaceIdiom
+#endif
+// snippet.end
+
 // snippet.platform
 #if os(macOS)
 print("Built for macOS")

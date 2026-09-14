@@ -528,6 +528,29 @@ CI. If snippets work, they are the answer.
   place, run through `scripts/test-ios.sh` on a simulator. The manifest declares
   an iOS 17 deployment target so a check against iOS 26 is a real run-time
   branch rather than a constant. The articles never reference the tests.
+- *The experiments have an Objective-C target as well.* Checking API
+  Availability has a section on the Objective-C spellings — `@available`, the
+  `API_AVAILABLE` family, and the warning-versus-error difference — and those
+  claims need a compiler to check them too. A SwiftPM target cannot mix the
+  two languages, so `Tests/SwiftLanguageGuideExtendedTestsObjC` is a second
+  test target, in XCTest because Swift Testing has no Objective-C surface. The
+  declarations under test — a class marked `API_AVAILABLE(ios(26.0))`, a
+  function marked `API_UNAVAILABLE(macos)`, a deprecated one — live in a
+  library target, `Sources/SwiftLanguageGuideExtendedObjC`, rather than in
+  the test file, because a test target cannot be imported and the article's
+  claim that availability crosses the bridge needs the Swift tests to import
+  them. Both test targets depend on it; the Swift side of the bridge is in
+  `CheckingAPIAvailabilityBridgeTests.swift`. The same script runs
+  everything. Target names take `ObjC` as a suffix. The manifest adds the
+  library, the Objective-C tests, and the Swift tests' dependency on the
+  library only where `canImport(ObjectiveC)` holds, because the Linux docs
+  build runs `swift build`, which would compile a library target. On macOS,
+  `swift build --build-tests` compiles all of it, so the macOS-unavailable
+  calls are wrapped in `#if !TARGET_OS_OSX` and `#if !os(macOS)`, the pairing
+  the article recommends. The unguarded-use and deprecated-call experiments
+  produce their warnings in the build log on purpose; that is the behavior
+  being observed. The docs script names its target explicitly, so the library
+  is never documented.
 
 ## Step 4 — Migrate the remaining pages
 

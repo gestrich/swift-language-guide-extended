@@ -13,26 +13,15 @@ only on the platforms that have it.
 
 ## Overview
 
-An app is built against one SDK and runs on many OS versions. Two settings
-describe that gap. The *deployment target* is the oldest OS the build is allowed
-to run on. The *SDK* is the set of declarations the code compiles against — the
-headers and `.swiftinterface` files inside the selected Xcode.
+An app is built against one SDK and runs on every OS version from its
+*deployment target* up. The compiler rejects a use of an API newer than the
+deployment target, because the build can run on a device where the symbol does
+not exist. Three constructs deal with that, and they divide by when they are
+decided.
 
-The compiler knows the version each SDK declaration was introduced in, and
-rejects any use of a declaration newer than the deployment target, because that
-build can run on a device where the symbol does not exist:
-
-```swift
-Text("hi").glassEffect()
-// error: 'glassEffect(_:in:)' is only available in iOS 26.0 or newer
-// note: add 'if #available' version check
-```
-
-Swift has two ways to make that use legal, and they are different kinds of
-language construct. `#available` is a condition: it belongs to the condition
-list of an `if`, `guard`, or `while`, and the version is compared at run time.
-`@available` is an attribute: it attaches to a declaration, raises the version
-floor inside it, and requires its callers to do the check.
+`#available` is a condition in an `if`, `guard`, or `while`, decided at run
+time. Both branches compile against the SDK, and the OS version the app is
+running on selects one. `#unavailable` is the same check inverted.
 
 ```swift
 if #available(iOS 26, *) {
@@ -42,26 +31,27 @@ if #available(iOS 26, *) {
 }
 ```
 
-Both answer the question "is this API new enough that some users will not have
-it?" A third construct, `#if`, asks nothing about an API. It tests how the
+`@available` is an attribute on a declaration, and it moves the check to the
+callers. Inside the body the version floor is the one named, so the body uses
+the newer API without a check, and every caller has to satisfy that floor with
+`#available` or an `@available` of its own. Its `unavailable` form forbids the
+declaration on a platform, and no version check can reach it.
+
+```swift
+@available(iOS 26, *)
+struct GlassLabel: View {
+    var body: some View {
+        Text("glass").glassEffect()
+    }
+}
+```
+
+`#if` is decided at build time and asks nothing about an API. It tests how the
 build is configured — the platform, the architecture, the flags it was given —
 and the compiler reads only the branch that matches. The other branch is never
-compiled, so `#if` decides what the binary contains rather than which compiled
-branch runs.
+type checked, so it can name modules and symbols this platform does not have.
 
-The constructs divide by when they are decided. A run-time check compiles both
-branches, so every symbol in either branch has to exist in the SDK for the
-platform being built, including symbols a given device never reaches. A
-build-time check removes the branch that does not match before type checking,
-so the symbols it names need not exist for this build at all.
-
-| Construct | Decided at | When to use it |
-| --- | --- | --- |
-| `#available` | Run time | Run one branch on OS versions that have an API and another on versions that do not, inside an `if`, `guard`, or `while`. |
-| `#unavailable` | Run time | The same check inverted: run a fallback only on OS versions older than the one named, when the new case needs no branch of its own. |
-| `@available` | Run time, by the callers | Declare a type or function that needs a newer OS than the deployment target. The body can use that OS's APIs, and callers must check before using it. |
-| `@available(macOS, unavailable)` | Build time, though the body still compiles | Forbid a declaration on one platform, or on all of them with `*`. Every call is a compile error; no version check can reach it. |
-| `#if os(...)` | Build time | Compile code for some platforms only. The other branch is removed before type checking, so it can name modules and APIs the platform lacks. |
+@Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "platformOnly")
 
 ## The #available condition
 
@@ -137,6 +127,33 @@ if #unavailable(iOS 26, *) { }
 ```
 
 ### Compile time and run time
+
+Reviewed to here
+
+- The mac 99 feels like an anti-pattern (see the paragraph below the list)
+    Need clearer guidance on a pattern
+        Consider some tip of Best Practice tip, Decision tip, Practical tip, anti-pattern, When to use, etc.
+        The "choices" logic is probably the most important part of an article.
+- Does API_AVAILABLE(ios(26.0)), the objc one, have an unavialbale version? How about @available(iOS 26.0, *)? #if os?
+- Can you have types that don't exist at all for that platform? 
+- What is something is marked unavailable AFTER a version? Can available check for it and will it compile?
+- The condition section should begin by saying what a the avialable conditnion is
+    the parts abotu what conditions are genrally should follow.
+- Consider defintions or concepts sections. 
+- Consider diagrams in article
+- Make writing-style global skill
+- Add the actual swift language guide as a package dependency for reference
+
+Notes on the mac 99 fix: `#available` and `#unavailable` both require a
+version, so there is no run-time spelling of "not on macOS"; `#if !os(macOS)`
+is the tool, and it is decided at compile time, so the skipped code never
+type checks. The compiler gives no warning for `#available(macOS 99, *)`. Line
+109 is illustrating clause selection, so keep the idea but use a real version
+(`macOS 26` in an iOS build). Line 319 is showing that no version check can
+reach an `unavailable` declaration; follow it with the `#if !os(macOS)` form
+that does compile, and state the pairing: `@available(macOS, unavailable)` on
+the declaration matches `#if !os(macOS)` at the call site. Link forward to the
+`#if` section.
 
 Poor Language:
 

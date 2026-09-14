@@ -20,8 +20,10 @@ same language in more depth.
   folder per chapter.
 - `Snippets/` — the compiled home of every code example, embedded with
   `@Snippet`.
-- `Tests/` — a test target for experimenting with language behavior on an iOS
-  simulator. It is separate from the snippets and the site.
+- `Tests/` — test targets for experimenting with language behavior on an iOS
+  simulator, one in Swift and one in Objective-C. They are separate from the
+  snippets and the site. `Sources/SwiftLanguageGuideExtendedObjC/` is a small
+  Objective-C library they both import.
 - `.github/workflows/docs.yml` — builds the DocC archive on every push to
   `main` and deploys it to GitHub Pages.
 - `.agents/skills/` — skills describing the writing conventions for this
@@ -48,10 +50,11 @@ build differs from a local one, and why `file://` cannot open either.
 ## Running the experiments on iOS
 
 Some articles, such as Checking API Availability, describe behavior that
-differs by platform and OS version. The test target under `Tests/` is a place
-to try that out. It runs on an iOS simulator so `#if os(iOS)` is true and
-`#available(iOS 26, *)` is a real run-time check, which the package's iOS 17
-deployment target keeps below the SDK version:
+differs by platform and OS version. The test targets under `Tests/` are a
+place to try that out, in Swift and in Objective-C. They run on an iOS
+simulator so `#if os(iOS)` is true and `#available(iOS 26, *)` is a real
+run-time check, which the package's iOS 17 deployment target keeps below the
+SDK version:
 
 ```
 scripts/test-ios.sh              # first available iPhone simulator

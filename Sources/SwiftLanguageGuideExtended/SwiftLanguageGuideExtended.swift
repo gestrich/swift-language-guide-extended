@@ -2,3 +2,8 @@
 // is the DocC catalog in Documentation.docc, so this type is deliberately
 // internal — a public symbol would appear in the rendered navigation.
 enum SwiftLanguageGuideExtendedPlaceholder {}
+
+@available(any 26, *)
+func myFunction() {
+    
+}
