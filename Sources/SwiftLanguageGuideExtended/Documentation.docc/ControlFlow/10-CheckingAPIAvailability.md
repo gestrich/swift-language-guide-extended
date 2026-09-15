@@ -109,10 +109,11 @@ runs, so one binary behaves differently on iOS 17 and on iOS 26.
 ### Platforms and the wildcard
 
 An availability condition is a list of platform-and-version pairs, and it must
-end in `*`. Each pair applies only to a build for that platform; the `*` covers
-every platform not named and means "the deployment target", which is always
-satisfied. A version can carry minor and patch components: `iOS 17.2.6` is
-valid.
+end in `*`. Each pair applies only to a build for that platform, and its
+version is a minimum: `iOS 26` is satisfied on iOS 26 and on every later
+version. The `*` covers every platform not named and means "the deployment
+target", which is always satisfied. A version can carry minor and patch
+components: `iOS 17.2.6` is valid, and is satisfied by iOS 17.2.6 and later.
 
 ```swift
 if #available(iOS 26, macOS 26, *) { }
