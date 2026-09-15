@@ -49,11 +49,21 @@ Does #unavailable also run on other platforms not specified?
 
 ## Overview
 
-An app is built against one SDK and runs on every OS version from its
-*deployment target* up. The compiler rejects a use of an API newer than the
-deployment target, because the build can run on a device where the symbol does
-not exist. Three constructs deal with that, and they divide by when they are
-decided.
+Every build has two version numbers, and the article hinges on both.
+
+The *deployment target* is the oldest OS the app runs on. A package manifest
+spells it `.iOS(.v18)`, and Xcode's General tab labels it Minimum
+Deployments. It is a floor with no ceiling: an app with a deployment target
+of iOS 18 runs on iOS 18 and every version after it.
+
+The *SDK* is the set of OS headers the compiler builds against. It ships with
+Xcode, one per release, and it is the newest OS the compiler knows about. An
+API introduced in iOS 26 is in the iOS 27 SDK, so the compiler can see it,
+but a device running iOS 18 does not have it.
+
+The compiler rejects a use of an API newer than the deployment target, because
+the app can run on a device where the symbol does not exist. Three constructs
+deal with that, and they divide by when they are decided.
 
 `#available` is a condition in an `if`, `guard`, or `while`, decided at run
 time. Both branches compile against the SDK, and the OS version the app is
