@@ -52,9 +52,10 @@ Does #unavailable also run on other platforms not specified?
 Every build has two version numbers, and the article hinges on both.
 
 The *deployment target* is the oldest OS the app runs on. A package manifest
-spells it `.iOS(.v18)`, and Xcode's General tab labels it Minimum
-Deployments. It is a floor with no ceiling: an app with a deployment target
-of iOS 18 runs on iOS 18 and every version after it.
+spells it `.iOS(.v18)`. Xcode's General tab labels it Minimum Deployments,
+and the Build Settings tab lists one per platform, such as iOS Deployment
+Target. It is a floor with no ceiling: an app with a deployment target of
+iOS 18 runs on iOS 18 and every version after it.
 
 The *SDK* is the set of OS headers the compiler builds against. It ships with
 Xcode, one per release, and it is the newest OS the compiler knows about. An
