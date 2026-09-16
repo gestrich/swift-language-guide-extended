@@ -52,8 +52,10 @@ Does #unavailable also run on other platforms not specified?
 
 Every build has two version numbers, and the article hinges on both.
 
-The *deployment target* is the oldest OS the app runs on. A package manifest
-spells it `.iOS(.v18)`. Xcode's General tab labels it Minimum Deployments,
+The *deployment target* is the oldest OS the app runs on. A Swift package
+sets it with the `platforms` argument of its manifest, `platforms:
+[.iOS(.v18)]`, and a package that omits the argument gets the toolchain's
+default for each platform. Xcode's General tab labels it Minimum Deployments,
 and the Build Settings tab lists one per platform, such as iOS Deployment
 Target. It is a floor with no ceiling: an app with a deployment target of
 iOS 18 runs on iOS 18 and every version after it.
