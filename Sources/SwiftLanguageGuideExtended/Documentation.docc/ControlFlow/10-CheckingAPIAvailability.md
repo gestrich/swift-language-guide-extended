@@ -7,10 +7,9 @@ only on the platforms that have it.
 
 **Reviewed to: Start of The #available condition section**
 
-- The mac 99 feels like an anti-pattern (see the paragraph below the list)
-    Need clearer guidance on a pattern
-        Consider some tip of Best Practice tip, Decision tip, Practical tip, anti-pattern, When to use, etc.
-        The "choices" logic is probably the most important part of an article.
+- Need clearer guidance on patterns
+    Consider some tip of Best Practice tip, Decision tip, Practical tip, anti-pattern, When to use, etc.
+    The "choices" logic is probably the most important part of an article.
 - Does API_AVAILABLE(ios(26.0)), the objc one, have an unavialbale version? How about @available(iOS 26.0, *)? #if os?
 - Can you have types that don't exist at all for that platform? 
 - What is something is marked unavailable AFTER a version? Can available check for it and will it compile?
@@ -19,17 +18,6 @@ only on the platforms that have it.
 - Make writing-style global skill
 - Add the actual swift language guide as a package dependency for reference
 - Can an `#if os(...)` check take a version number?
-
-Notes on the mac 99 fix: `#available` and `#unavailable` both require a
-version, so there is no run-time spelling of "not on macOS"; `#if !os(macOS)`
-is the tool, and it is decided at compile time, so the skipped code never
-type checks. The compiler gives no warning for `#available(macOS 99, *)`. Line
-109 is illustrating clause selection, so keep the idea but use a real version
-(`macOS 26` in an iOS build). Line 319 is showing that no version check can
-reach an `unavailable` declaration; follow it with the `#if !os(macOS)` form
-that does compile, and state the pairing: `@available(macOS, unavailable)` on
-the declaration matches `#if !os(macOS)` at the call site. Link forward to the
-`#if` section.
 
 Poor Language:
 
@@ -146,8 +134,17 @@ if #available(iOS 26) { }
 // error: must handle potential future platforms with '*'
 ```
 
-So in an iOS build, `#available(macOS 99, *)` always takes the then-branch: the
-macOS clause does not apply to an iOS build, and the `*` applies instead.
+A build sometimes has to exclude a platform altogether. Because the version is
+a minimum, a version no release will reach does that: in an iOS build,
+`#available(macOS 99, *)` always takes the then-branch, because the macOS
+clause does not apply and the `*` does; in a macOS build it always takes the
+else-branch. The check answers when an API arrived on a platform, though, and
+this case has no such version. Either the API never comes to the platform, or
+the code is only behaving differently there. `#if os(macOS)` is the better
+choice for both: it is decided at build time, and it names the platform rather
+than encoding it in a version. <doc:#if> covers it. The same applies to
+`@available`. A declaration to keep off a platform is marked `unavailable`
+for it, or wrapped in `#if`, rather than given a version that never ships.
 
 ### #unavailable
 
