@@ -18,6 +18,7 @@ only on the platforms that have it.
 - Consider diagrams in article
 - Make writing-style global skill
 - Add the actual swift language guide as a package dependency for reference
+- Can an `#if os(...)` check take a version number?
 
 Notes on the mac 99 fix: `#available` and `#unavailable` both require a
 version, so there is no run-time spelling of "not on macOS"; `#if !os(macOS)`
@@ -101,6 +102,14 @@ and the compiler reads only the branch that matches. The other branch is never
 type checked, so it can name modules and symbols this platform does not have.
 
 @Snippet(path: "SwiftLanguageGuideExtended/Snippets/ControlFlow/CheckingAPIAvailability", slice: "platformOnly")
+
+| Construct | Decided at | When to use it |
+| --- | --- | --- |
+| `#available` | Run time | Run one branch on OS versions that have an API and another on versions that do not, inside an `if`, `guard`, or `while`. |
+| `#unavailable` | Run time | The same check inverted: run a fallback only on OS versions older than the one named, when the new case needs no branch of its own. |
+| `@available` | Run time, by the callers | Declare a type or function that needs a newer OS than the deployment target. The body can use that OS's APIs, and callers must check before using it. |
+| `@available(macOS, unavailable)` | Build time, though the body still compiles | Forbid a declaration on one platform, or on all of them with `*`. Every call is a compile error; no version check can reach it. |
+| `#if os(...)` | Build time | Compile code for some platforms only. The other branch is removed before type checking, so it can name modules and APIs the platform lacks. |
 
 ## The #available condition
 
