@@ -36,16 +36,17 @@ private notes, or that chapters are still being migrated.
   [apple/swift-book](https://github.com/apple/swift-book). Reference material
   only; nothing in the package builds it. See "The original book" below.
 - `scripts/docs.sh` — builds, serves, and deploys the site. It is a copy of
-  the script bundled with the `docc-bill` skill and stays identical to it, so
-  the build an agent runs is the build CI runs.
+  `plugin/skills/docc-bill/scripts/docs.sh` in the `docc-plugin` repo and
+  stays identical to it, so the build an agent runs is the build CI runs.
 - `PLAN.md` — the migration plan and its record of decisions.
 - `.github/workflows/docs.yml` — builds and deploys to GitHub Pages on every
   push to `main`, by running `scripts/docs.sh build --hosted`.
 
 ## Skills to read first
 
-- `docc-bill` (personal skill at `~/.claude/skills/docc-bill/`, not in this
-  repo) — everything about DocC and about writing these articles. Its
+- `docc-bill`, from the `docc-plugin` plugin (the clone at
+  `~/Developer/personal/docc-plugin`, installed for Claude Code and Codex; not
+  in this repo) — everything about DocC and about writing these articles. Its
   `SKILL.md` routes to reference files by area. Read
   `references/writing-articles.md` before writing or editing any article,
   `references/building.md` before running any documentation build, and
