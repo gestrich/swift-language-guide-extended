@@ -381,7 +381,10 @@ if #available(macOS 99, *) { notOnMac() }
 This is the Swift spelling of `API_UNAVAILABLE`, and how the SDK marks an API
 that a platform does not have at all.
 
-With `*` as the platform, the constraint applies everywhere:
+With `*` as the platform, the constraint applies everywhere. The `*` here is
+the long form's one platform argument, so it means every platform, where the
+trailing `*` of `@available(iOS 26, *)` means the deployment target on the
+platforms not listed.
 
 ```swift
 @available(*, unavailable, message: "This one never ships.")
@@ -398,6 +401,60 @@ func caller() async { blocking() }
 
 That last one is an error in the Swift 6 language mode and a warning in the
 Swift 5 mode.
+
+### Uses of an unavailable declaration
+
+An unavailable declaration exists without being callable. The compiler still
+sees it, so every call gets an error with wording the author controls. That is
+the reason to keep a declaration rather than delete it.
+
+A library removing an API keeps the old name with `renamed:`. The call becomes
+an error that names the replacement, and Xcode offers it as a fix-it, where
+deleting the declaration would leave the caller with "cannot find in scope".
+
+```swift
+@available(*, unavailable, renamed: "load(from:)")
+func loadFile(at path: String) { }
+
+loadFile(at: "notes.txt")
+// error: 'loadFile(at:)' has been renamed to 'load(from:)'
+```
+
+A library that promises ABI stability cannot delete a public function without
+breaking apps compiled against it. Marking the function unavailable keeps the
+symbol in the binary for those apps, and new code cannot call it.
+
+An initializer a class is required to declare can be turned off. A
+`UIViewController` subclass with its own initializer has to declare
+`init?(coder:)`, and this keeps it from being called:
+
+```swift
+class Banner: UIViewController {
+    init() { super.init(nibName: nil, bundle: nil) }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) { fatalError() }
+}
+
+Banner(coder: coder)
+// error: 'init(coder:)' is unavailable
+```
+
+A conformance can be unavailable too. A struct whose stored properties are all
+`Sendable` is `Sendable` by inference, and an unavailable conformance is how to
+say it must not be:
+
+```swift
+struct Cache {
+    var entries: [String: Data]
+}
+
+@available(*, unavailable)
+extension Cache: Sendable { }
+
+send(cache)
+// error: conformance of 'Cache' to 'Sendable' is unavailable
+```
 
 ### The Swift language mode
 
