@@ -345,9 +345,10 @@ hit.
 - *The skill then moved into a plugin, the same day.* It lives at
   `~/Developer/personal/docc-plugin` as `plugin/skills/docc-bill/`, packaged
   the way `ios-ai-plugins` is, and is installed for Claude Code and Codex from
-  that clone. Both CLIs cache a copy on install, so the repo's `plugin.sh`
-  symlinks the cached copy back to the clone; edits there are live in every
-  new session without reinstalling.
+  that clone. Both CLIs cache a copy on install, even from a local
+  marketplace, so after editing the skill run `./plugin.sh update` there and
+  restart the session; the reinstall copies the working tree, committed or
+  not.
 - *The conventions in short.* One concept per article. Title, one-sentence
   abstract, `## Overview` carrying the whole idea, then one `##` section per
   idea with a hard cap of about six. Every section runs heading, rule in one to
