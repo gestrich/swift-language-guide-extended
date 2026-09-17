@@ -330,6 +330,18 @@ hit.
 - *The skill landed at `.claude/skills/writing-articles/SKILL.md`.* It splits
   cleanly from the `docc` skill, which covers only what DocC will and will not
   render. Each skill points at the other.
+- *Both repo-local skills moved into the personal `docc-bill` skill on
+  2026-09-17.* `writing-articles` and `building-docs` became reference files
+  of `~/.claude/skills/docc-bill/`, split by area (`catalog-structure.md`,
+  `syntax.md`, `snippets.md`, `building.md`, `writing-articles.md`) with the
+  duplication between them and the old `docc-bill` removed. What was specific
+  to this site — the relationship to Apple's guide, the migration editing
+  pass, the snippet path, the URLs — moved to `AGENTS.md`, which now sits on
+  top of the skill. The prose rules live once, in the skill. `docs.sh` moved
+  to `scripts/docs.sh` with the project names taken out: it finds the package
+  from the working directory, the target from `Sources/*/Documentation.docc`,
+  and the hosting base path from the origin remote, so the repo copy and the
+  skill copy are identical and CI runs the same file an agent does.
 - *The conventions in short.* One concept per article. Title, one-sentence
   abstract, `## Overview` carrying the whole idea, then one `##` section per
   idea with a hard cap of about six. Every section runs heading, rule in one to
@@ -650,20 +662,21 @@ subdomain of the same domain, so both live under one name.
    not, have `docs.sh build --hosted` write `$OUTPUT/CNAME` so the domain ships
    inside the artifact.
 5. Drop the hosting base path. A custom domain serves the site at the domain
-   root, so `--hosting-base-path swift-language-guide-extended` in
-   `docs.sh` becomes wrong: every asset URL would ask for
+   root, so the `--hosting-base-path` that `docs.sh build --hosted` passes
+   becomes wrong: every asset URL would ask for
    `/swift-language-guide-extended/css/…`, which 404s and renders a blank page.
-   The root redirect is relative (`./documentation/…`) and needs no change.
-   Once the flag is gone the hosted and local builds have the same shape, so
-   rewrite the "Why there are two build shapes" section of the `building-docs`
-   skill, which will be describing a difference that no longer exists.
+   The script always adds the flag on a hosted build and has no switch to
+   leave it off, so add one (an empty `--base-path`, say) to the `docc-bill`
+   skill's copy and to `scripts/docs.sh` alike, and keep them identical. The
+   root redirect is relative (`./documentation/…`) and needs no change. The
+   skill's `building.md` describes Pages project sites in general and stays
+   right; `AGENTS.md` should then say this site is served at the domain root.
 6. Wait for the certificate. GitHub provisions one through Let's Encrypt after
    DNS resolves, which can take up to an hour. Then tick "Enforce HTTPS".
 7. Check that `https://gestrich.github.io/swift-language-guide-extended/` still
    reaches the site. Pages redirects the old URL to the custom domain once it is
    set, but confirm it rather than assume — links to it exist outside this repo.
-8. Update every reference to the old URL: `README.md`, `CLAUDE.md`, the
-   `building-docs` skill's status lines and base-path explanation, and the
+8. Update every reference to the old URL: `README.md`, `AGENTS.md`, and the
    "Publish after every change" note at the top of this plan.
 9. Link the two sites. Add the guide to pilotcoder.com's navigation, and point
    at it from the posts that came out of this material — *Fun With Swift

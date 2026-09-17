@@ -43,9 +43,9 @@ jobs:
 
       # The same script that builds the site locally. It compiles the
       # snippets, builds with the hosting base path, and writes the redirect
-      # the site root needs. See .agents/skills/building-docs/SKILL.md.
+      # the site root needs. See scripts/docs.sh --help.
       - name: Build DocC archive
-        run: .agents/skills/building-docs/scripts/docs.sh build --hosted
+        run: scripts/docs.sh build --hosted
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

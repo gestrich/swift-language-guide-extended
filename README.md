@@ -26,8 +26,8 @@ same language in more depth.
   Objective-C library they both import.
 - `.github/workflows/docs.yml` — builds the DocC archive on every push to
   `main` and deploys it to GitHub Pages.
-- `.agents/skills/` — skills describing the writing conventions for this
-  project (`.claude/` is a symlink to it).
+- `scripts/` — `docs.sh` builds, serves, and deploys the site; `test-ios.sh`
+  runs the test targets on a simulator.
 - `AGENTS.md` — instructions for AI agents working in this repo (`CLAUDE.md` is
   a symlink to it).
 
@@ -36,16 +36,18 @@ same language in more depth.
 One script builds and serves the site:
 
 ```
-.agents/skills/building-docs/scripts/docs.sh serve
+scripts/docs.sh serve
 ```
 
 It compiles the snippets, builds `_site`, serves it on a free port in the
 background, and prints the URL to open. `docs.sh stop` shuts the server down,
 `docs.sh build` builds without serving, and `docs.sh --help` lists the rest.
 
-The same script runs in CI, so a build that works locally works there.
-`.agents/skills/building-docs/SKILL.md` explains the commands, why a deployed
-build differs from a local one, and why `file://` cannot open either.
+The same script runs in CI, so a build that works locally works there. A
+deployed build differs from a local one: GitHub Pages serves the site under the
+repository name, so `docs.sh build --hosted` prefixes every asset URL with it,
+and that output cannot be served from `_site` directly. Neither build opens
+over `file://`, because the page loads its assets by absolute path.
 
 ## Running the experiments on iOS
 

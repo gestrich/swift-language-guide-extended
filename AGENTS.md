@@ -35,20 +35,46 @@ private notes, or that chapters are still being migrated.
 - `Reference/swift-book/` — Apple's book itself, as a git submodule of
   [apple/swift-book](https://github.com/apple/swift-book). Reference material
   only; nothing in the package builds it. See "The original book" below.
-- `.agents/skills/` — project skills. `.claude/` is a symlink to `.agents/`.
+- `scripts/docs.sh` — builds, serves, and deploys the site. It is a copy of
+  the script bundled with the `docc-bill` skill and stays identical to it, so
+  the build an agent runs is the build CI runs.
 - `PLAN.md` — the migration plan and its record of decisions.
 - `.github/workflows/docs.yml` — builds and deploys to GitHub Pages on every
-  push to `main`.
+  push to `main`, by running `scripts/docs.sh build --hosted`.
 
 ## Skills to read first
 
-- `writing-articles` (in `.agents/skills/`) — article shape, section rhythm,
-  code example style, prose rules. Read before writing or editing any article.
-- `building-docs` (in `.agents/skills/`) — the script that builds, serves, and
-  deploys the site. Read before running any documentation build.
-- `docc-bill` (personal skill set, not in this repo) — DocC mechanics: catalog
-  layout, link syntax, Topics groups, snippets, the syntax DocC silently breaks
-  on.
+- `docc-bill` (personal skill at `~/.claude/skills/docc-bill/`, not in this
+  repo) — everything about DocC and about writing these articles. Its
+  `SKILL.md` routes to reference files by area. Read
+  `references/writing-articles.md` before writing or editing any article,
+  `references/building.md` before running any documentation build, and
+  `catalog-structure.md`, `syntax.md`, and `snippets.md` as the work calls
+  for them.
+
+The conventions below are what is specific to this site. They sit on top of
+the skill and win where they differ from it.
+
+## Conventions specific to this site
+
+- The articles replace Apple's guide rather than summarize it. Read the
+  chapter being covered from `Reference/swift-book/` first. The guide's
+  examples are not reused: either a shorter example shows the same idea, or a
+  longer one is needed to show it properly.
+- Material that goes beyond the guide is not labeled as such. State it as a
+  fact with the evidence beside it; the reader does not need to know which
+  sentence came from Apple. Use `> Note:` where the guide says something that
+  is incomplete or no longer true, written neutrally.
+- Migrating a chapter is also an editing pass. Playground comment text is not
+  pasted in unchanged: rough phrasing gets rewritten, and accidental ordering
+  gets fixed.
+- A snippet is embedded as
+  `@Snippet(path: "SwiftLanguageGuideExtended/Snippets/<Chapter>/<Article>", slice: "<name>")`,
+  with the folder named for the chapter's page and the file for the article.
+- The deployed site is https://gestrich.github.io/swift-language-guide-extended/,
+  so the hosted build's base path is `swift-language-guide-extended`. A page's
+  local URL is its filename lowercased:
+  http://localhost:8000/documentation/swiftlanguageguideextended/10-checkingapiavailability.
 
 ## The original book
 
@@ -71,14 +97,13 @@ text, in DocC markdown, and it can be searched and diffed.
 
 ## Working conventions
 
-- Build and serve the site only through `building-docs`. Its script compiles
-  the snippets first, which is the only thing that type checks them — the docs
-  build extracts them textually and will happily ship a broken example.
+- Build and serve the site only through `scripts/docs.sh`, the way the
+  `docc-bill` skill's `building.md` describes. It compiles the snippets first,
+  which is the only thing that type checks them — the docs build extracts them
+  textually and will happily ship a broken example.
 - Publish after every change that touches the catalog: commit and push to
   `main`, then confirm it is live. End the reply with a link to each page that
   changed on the local server, at its own URL rather than the site root, so it
-  can be opened from the reply —
-  http://localhost:8000/documentation/swiftlanguageguideextended/checkingapiavailability.
-  That means serving the site, not just building it. `building-docs` has the
-  wording.
+  can be opened from the reply. That means serving the site, not just building
+  it. `building.md` has the wording.
 - Record non-obvious decisions in `PLAN.md` under the step they came from.
