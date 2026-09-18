@@ -42,16 +42,28 @@ private notes, or that chapters are still being migrated.
 - `.github/workflows/docs.yml` — builds and deploys to GitHub Pages on every
   push to `main`, by running `scripts/docs.sh build --hosted`.
 
-## Skills to read first
+## Load the docc-bill skill first, every session
 
-- `docc-bill`, from the `docc-plugin` plugin (the clone at
-  `~/Developer/personal/docc-plugin`, installed for Claude Code and Codex; not
-  in this repo) — everything about DocC and about writing these articles. Its
-  `SKILL.md` routes to reference files by area. Read
-  `references/writing-articles.md` before writing or editing any article,
-  `references/building.md` before running any documentation build, and
-  `catalog-structure.md`, `syntax.md`, and `snippets.md` as the work calls
-  for them.
+Every session in this repo starts by loading the `docc-bill` skill, before
+reading an article, editing one, or running a build. It holds everything about
+DocC and about how these articles are written, and nothing here restates it.
+Load it through the skill mechanism (Claude Code lists it as
+`docc-plugin:docc-bill`; in Codex it is the `docc-bill` skill of the
+`docc-plugin` plugin) rather than reading files from the plugin's clone, so
+the installed copy is the one in use. It ships in the `docc-plugin` plugin,
+cloned at `~/Developer/personal/docc-plugin` and installed for both CLIs; it
+is not in this repo.
+
+Its `SKILL.md` routes to reference files by area. Read them as the work calls
+for them, and again in a later session rather than relying on memory of them:
+
+- `references/writing-articles.md` before writing, editing, or migrating any
+  article.
+- `references/building.md` before any documentation build, preview, or
+  publish.
+- `references/catalog-structure.md`, `references/syntax.md`, and
+  `references/snippets.md` when adding or moving a page, writing links or
+  headings, or adding a code example.
 
 The conventions below are what is specific to this site. They sit on top of
 the skill and win where they differ from it.
